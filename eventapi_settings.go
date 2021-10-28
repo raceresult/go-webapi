@@ -19,6 +19,14 @@ func newSettings(api *EventAPI) *Settings {
 	}
 }
 
+// Setting serves to save a setting
+type Setting struct {
+	Name    string
+	Value   variant.Variant
+	Result  int
+	Contest int
+}
+
 // Get returns setting values
 func (q *Settings) Get(names ...string) (variant.VariantMap, error) {
 	values := urlValues{}
@@ -52,16 +60,17 @@ func (q *Settings) GetValue(name string) (variant.Variant, error) {
 }
 
 // Save saves setting values
-func (q *Settings) Save(values variant.VariantMap) error {
+func (q *Settings) Save(values []Setting) error {
 	_, err := q.api.post("settings/savesettings", nil, values)
 	return err
 }
 
 // SaveValue saves a single setting value
 func (q *Settings) SaveValue(name string, value variant.Variant) error {
-	return q.Save(variant.VariantMap{
-		name: value,
-	})
+	return q.Save([]Setting{{
+		Name:  name,
+		Value: value,
+	}})
 }
 
 // Delete deletes a single setting which can be linked to a contest/result

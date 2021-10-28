@@ -121,13 +121,19 @@ func (q *API) do(req *http.Request) ([]byte, error) {
 	defer func() { _ = resp.Body.Close() }()
 	bts, err := ioutil.ReadAll(resp.Body)
 
-	// check http code
-	if resp.StatusCode != 200 {
-		return bts, errors.New(string(bts))
+	// success=
+	if resp.StatusCode == 200 {
+		return bts, err
 	}
 
-	// return without error
-	return bts, err
+	// error happened
+	var e struct {
+		Error string
+	}
+	if json.Unmarshal(bts, &e) == nil {
+		return bts, errors.New(e.Error)
+	}
+	return bts, errors.New(string(bts))
 }
 
 // buildURL compiles the url for any request
