@@ -8,16 +8,17 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"sync/atomic"
 	"time"
 )
 
 // API is the main object of the web api
 type API struct {
-	server    string
-	secure    bool
-	public    *Public
-	timeout   time.Duration
-	userAgent string
+	server     string
+	secure     bool
+	public     *Public
+	timeout_ms int32
+	userAgent  string
 }
 
 // NewAPI creates a new API object
@@ -26,10 +27,10 @@ func NewAPI(server string, https bool, userAgent string) *API {
 		userAgent = "webapi/1.0"
 	}
 	q := &API{
-		server:    server,
-		secure:    https,
-		timeout:   30 * time.Second,
-		userAgent: userAgent,
+		server:     server,
+		secure:     https,
+		timeout_ms: 30000,
+		userAgent:  userAgent,
 	}
 	q.public = newPublic(q)
 	return q
@@ -48,6 +49,16 @@ func (q *API) Public() *Public {
 // General returns the endpoint group for general functions
 func (q *API) General() *General {
 	return newGeneral(q)
+}
+
+// SetTimeout sets the timeout for all following requests. Default is 30 seconds.
+func (q *API) SetTimeout(timeout time.Duration) {
+	atomic.StoreInt32(&q.timeout_ms, int32(timeout.Milliseconds()))
+}
+
+// GetTimeout returns the current request timeout
+func (q *API) GetTimeout() time.Duration {
+	return time.Duration(atomic.LoadInt32(&q.timeout_ms)) * time.Millisecond
 }
 
 // get makes a GET request on the server
@@ -92,7 +103,7 @@ func (q *API) post(eventID, cmd string, values urlValues, contentType string, da
 func (q *API) do(req *http.Request) ([]byte, error) {
 	// make request
 	client := http.Client{
-		Timeout: q.timeout,
+		Timeout: q.GetTimeout(),
 	}
 	req.Header.Set("Authorization", "Bearer "+q.public.sessionID)
 	req.Header.Set("User-Agent", q.userAgent)
