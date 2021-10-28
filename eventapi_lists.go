@@ -2,6 +2,8 @@ package webapi
 
 import (
 	"encoding/json"
+
+	"github.com/raceresult/go-model/list"
 )
 
 // Lists contains all api endpoints regarding lists
@@ -63,22 +65,29 @@ func (q *Lists) New(name string) error {
 	return err
 }
 
-/*
 // Get returns the settings of a list
-func (q *Lists) Get(name string, noTranslate bool) (List, error) {
-	values := mixed.Map{
-		"name":    name,
+func (q *Lists) Get(name string, noTranslate bool, lang string) (*list.List, error) {
+	values := urlValues{
+		"name":        name,
 		"noTranslate": noTranslate,
+		"lang":        lang,
 	}
 	bts, err := q.api.get("lists/get", values)
 	if err != nil {
-		return List{}, err
+		return nil, err
 	}
-	var dest List
-	err = json.Unmarshal(bts, &dest)
-	return dest, err
+	var dest *list.List
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return dest, nil
 }
-*/
+
+// Save saves a list
+func (q *Lists) Save(item *list.List) error {
+	_, err := q.api.post("lists/save", nil, item)
+	return err
+}
 
 // ParticipantsNotActivated returns the number of participants in the list which are not activated
 func (q *Lists) ParticipantsNotActivated(name string, contests []int, onlyWithUnderscores bool) (int, error) {
