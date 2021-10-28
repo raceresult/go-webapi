@@ -20,7 +20,7 @@ func newBackup(api *EventAPI) *Backup {
 
 // Active returns true if backup is running
 func (q *Backup) Active() (bool, error) {
-	bts, err := q.api.get("backup/active", nil)
+	bts, err := q.api.Get("backup/active", nil)
 	if err != nil {
 		return false, err
 	}
@@ -36,25 +36,25 @@ func (q *Backup) Start(hostname, filename string) error {
 		"hostname": hostname,
 		"filename": filename,
 	}
-	_, err := q.api.get("backup/start", values)
+	_, err := q.api.Get("backup/start", values)
 	return err
 }
 
 // Restart restarts the backup process with previous settings
 func (q *Backup) Restart() error {
-	_, err := q.api.get("backup/restart", nil)
+	_, err := q.api.Get("backup/restart", nil)
 	return err
 }
 
 // Stop stops the backup process
 func (q *Backup) Stop() error {
-	_, err := q.api.get("backup/stop", nil)
+	_, err := q.api.Get("backup/stop", nil)
 	return err
 }
 
 // Info returns statistics about the backup process
 func (q *Backup) Info() (model.ForwardingInfo, error) {
-	bts, err := q.api.get("backup/info", nil)
+	bts, err := q.api.Get("backup/info", nil)
 	if err != nil {
 		return model.ForwardingInfo{}, err
 	}

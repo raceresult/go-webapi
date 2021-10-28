@@ -234,12 +234,12 @@ func (q *EventAPI) MultiRequest(requests []string) (map[string]interface{}, erro
 	return dest, nil
 }
 
-// get makes a GET request on the server
-func (q *EventAPI) get(cmd string, values urlValues) ([]byte, error) {
+// Get makes a GET request on the server
+func (q *EventAPI) Get(cmd string, values urlValues) ([]byte, error) {
 	return q.api.get(q.eventID, cmd, values)
 }
 
-// post makes a POST request on the server
-func (q *EventAPI) post(cmd string, values urlValues, data interface{}) ([]byte, error) {
+// Post makes a POST request on the server
+func (q *EventAPI) Post(cmd string, values urlValues, data interface{}) ([]byte, error) {
 	return q.api.post(q.eventID, cmd, values, "", data)
 }

@@ -23,7 +23,7 @@ func (q *Chat) GetMessages(minID int) ([]model.ChatMessage, error) {
 	values := urlValues{
 		"minID": minID,
 	}
-	bts, err := q.api.get("chat/getmessages", values)
+	bts, err := q.api.Get("chat/getmessages", values)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (q *Chat) GetUsers(username string) ([]string, error) {
 	values := urlValues{
 		"username": username,
 	}
-	bts, err := q.api.get("chat/getusers", values)
+	bts, err := q.api.Get("chat/getusers", values)
 	if err != nil {
 		return nil, err
 	}
@@ -52,6 +52,6 @@ func (q *Chat) PostMessage(username, msg string) error {
 	values := urlValues{
 		"username": username,
 	}
-	_, err := q.api.post("chat/postmessage", values, []byte(msg))
+	_, err := q.api.Post("chat/postmessage", values, []byte(msg))
 	return err
 }

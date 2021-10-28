@@ -20,7 +20,7 @@ func newArchives(api *EventAPI) *Archives {
 
 // CreateNewRegNo creates a new registration number
 func (q *Archives) CreateNewRegNo() (int, error) {
-	bts, err := q.api.get("archives/createnewregno", nil)
+	bts, err := q.api.Get("archives/createnewregno", nil)
 	if err != nil {
 		return 0, err
 	}
@@ -38,7 +38,7 @@ func (q *Archives) GetMatches(prefix string, maxNumber int) ([]archives.Match, e
 		"prefix":    prefix,
 		"maxNumber": maxNumber,
 	}
-	bts, err := q.api.get("archives/getmatches", values)
+	bts, err := q.api.Get("archives/getmatches", values)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (q *Archives) GetEntry(id int, regNo string) (*archives.Participant, error)
 		"id":    id,
 		"regNo": regNo,
 	}
-	bts, err := q.api.get("archives/getentry", values)
+	bts, err := q.api.Get("archives/getentry", values)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (q *Archives) GetParticipations(bib int) ([]archives.ParticipationExt, erro
 	values := urlValues{
 		"bib": bib,
 	}
-	bts, err := q.api.get("archives/getparticipations", values)
+	bts, err := q.api.Get("archives/getparticipations", values)
 	if err != nil {
 		return nil, err
 	}
@@ -87,29 +87,29 @@ func (q *Archives) GetParticipations(bib int) ([]archives.ParticipationExt, erro
 
 // Download returns the entire archives file
 func (q *Archives) Download() ([]byte, error) {
-	return q.api.get("archives/download", nil)
+	return q.api.Get("archives/download", nil)
 }
 
 // Remove deletes the entire archive from the event
 func (q *Archives) Remove() error {
-	_, err := q.api.get("archives/remove", nil)
+	_, err := q.api.Get("archives/remove", nil)
 	return err
 }
 
 // Create creates a new archives file
 func (q *Archives) Create() error {
-	_, err := q.api.get("archives/create", nil)
+	_, err := q.api.Get("archives/create", nil)
 	return err
 }
 
 // Write writes the data of the current event into the archive
 func (q *Archives) Write() error {
-	_, err := q.api.get("archives/write", nil)
+	_, err := q.api.Get("archives/write", nil)
 	return err
 }
 
 // Import imports an archive into the event file
 func (q *Archives) Import(bts []byte) error {
-	_, err := q.api.post("archives/import", nil, bts)
+	_, err := q.api.Post("archives/import", nil, bts)
 	return err
 }

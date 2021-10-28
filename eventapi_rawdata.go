@@ -41,7 +41,7 @@ func (q *RawData) ExcelExport(bib int, lang string) ([]byte, error) {
 		"bib":  bib,
 		"lang": lang,
 	}
-	return q.api.get("rawdata/excelexport", values)
+	return q.api.Get("rawdata/excelexport", values)
 }
 
 // SetInvalid sets a raw data entry to valid or invalid
@@ -50,7 +50,7 @@ func (q *RawData) SetInvalid(id int, invalid bool) error {
 		"id":      id,
 		"invalid": invalid,
 	}
-	_, err := q.api.get("rawdata/setinvalid", values)
+	_, err := q.api.Get("rawdata/setinvalid", values)
 	return err
 }
 
@@ -59,7 +59,7 @@ func (q *RawData) DeleteID(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.get("rawdata/deleteid", values)
+	_, err := q.api.Get("rawdata/deleteid", values)
 	return err
 }
 
@@ -76,7 +76,7 @@ func (q *RawData) Delete(timingPoint string, contest int, bib int, filter string
 		"maxtime":     maxtime,
 		"filterInfo":  filterInfo,
 	}
-	_, err := q.api.get("rawdata/delete", values)
+	_, err := q.api.Get("rawdata/delete", values)
 	return err
 }
 
@@ -89,7 +89,7 @@ func (q *RawData) SetInvalidBatch(invalid bool, timingPoint string, timeFrom, ti
 		"timeTo":      timeTo,
 		"filter":      filter,
 	}
-	_, err := q.api.get("rawdata/setinvalidbatch", values)
+	_, err := q.api.Get("rawdata/setinvalidbatch", values)
 	return err
 }
 
@@ -103,7 +103,7 @@ func (q *RawData) Count(timingPoint string, bib int, contest int, filter string,
 		"minTime":     minTime,
 		"maxTime":     maxTime,
 	}
-	bts, err := q.api.get("rawdata/count", values)
+	bts, err := q.api.Get("rawdata/count", values)
 	if err != nil {
 		return 0, err
 	}
@@ -119,13 +119,13 @@ func (q *RawData) Copy(bibFrom, bibTo int) error {
 		"bibFrom": bibFrom,
 		"bibTo":   bibTo,
 	}
-	_, err := q.api.get("rawdata/copy", values)
+	_, err := q.api.Get("rawdata/copy", values)
 	return err
 }
 
 // DistinctValues returns list of unique values existing in raw data
 func (q *RawData) DistinctValues() (*model.RawDataDistinctValues, error) {
-	bts, err := q.api.get("rawdata/distinctvalues", nil)
+	bts, err := q.api.Get("rawdata/distinctvalues", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -143,6 +143,6 @@ func (q *RawData) AddManual(timingPoint string, bib int, time decimal.Decimal, a
 		"time":        time,
 		"addT0":       addT0,
 	}
-	_, err := q.api.get("rawdata/addmanual", values)
+	_, err := q.api.Get("rawdata/addmanual", values)
 	return err
 }

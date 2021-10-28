@@ -28,7 +28,7 @@ func (q *File) Activate(bib int, filter string, maxActivations int) (int, error)
 		"filter":         filter,
 		"maxActivations": maxActivations,
 	}
-	bts, err := q.api.get("file/activate", values)
+	bts, err := q.api.Get("file/activate", values)
 	if err != nil {
 		return 0, err
 	}
@@ -45,7 +45,7 @@ func (q *File) NotActivated(filter string) (int, error) {
 	values := urlValues{
 		"filter": filter,
 	}
-	bts, err := q.api.get("file/notactivated", values)
+	bts, err := q.api.Get("file/notactivated", values)
 	if err != nil {
 		return 0, err
 	}
@@ -59,7 +59,7 @@ func (q *File) NotActivated(filter string) (int, error) {
 
 // SESVersion returns the version of the Sports Event Server
 func (q *File) SESVersion() (*model.Version, error) {
-	bts, err := q.api.get("file/sesversion", nil)
+	bts, err := q.api.Get("file/sesversion", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (q *File) CheckExpression(expressions string, returnTree bool) (string, err
 		"expressions": expressions,
 		"returnTree":  returnTree,
 	}
-	bts, err := q.api.get("file/checkexpression", values)
+	bts, err := q.api.Get("file/checkexpression", values)
 	if err != nil {
 		return "", err
 	}
@@ -86,7 +86,7 @@ func (q *File) CheckExpression(expressions string, returnTree bool) (string, err
 
 // GetFile returns a copy of the entire event file
 func (q *File) GetFile() ([]byte, error) {
-	bts, err := q.api.get("file/getfile", nil)
+	bts, err := q.api.Get("file/getfile", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (q *File) GetFile() ([]byte, error) {
 
 // ModJobID returns the modjobid of the file
 func (q *File) ModJobID() (int, error) {
-	bts, err := q.api.get("file/modjobid", nil)
+	bts, err := q.api.Get("file/modjobid", nil)
 	if err != nil {
 		return 0, err
 	}
@@ -108,7 +108,7 @@ func (q *File) ModJobID() (int, error) {
 
 // ModJobIDs returns the normal modjobid and the settings modjobid of the file
 func (q *File) ModJobIDs() (int, int, error) {
-	bts, err := q.api.get("file/modjobids", nil)
+	bts, err := q.api.Get("file/modjobids", nil)
 	if err != nil {
 		return 0, 0, err
 	}
@@ -123,7 +123,7 @@ func (q *File) ModJobIDs() (int, int, error) {
 
 // Filename returns the filename of the event file
 func (q *File) Filename() (string, error) {
-	bts, err := q.api.get("file/filename", nil)
+	bts, err := q.api.Get("file/filename", nil)
 	if err != nil {
 		return "", err
 	}
@@ -133,7 +133,7 @@ func (q *File) Filename() (string, error) {
 // Owner returns the user ID of the owner of the event.
 // Available for online server only.
 func (q *File) Owner() (int, error) {
-	bts, err := q.api.get("file/owner", nil)
+	bts, err := q.api.Get("file/owner", nil)
 	if err != nil {
 		return 0, err
 	}
@@ -147,7 +147,7 @@ func (q *File) Owner() (int, error) {
 // IsOwner returns true if the user owns the event.
 // Available for online server only.
 func (q *File) IsOwner() (bool, error) {
-	bts, err := q.api.get("file/isowner", nil)
+	bts, err := q.api.Get("file/isowner", nil)
 	if err != nil {
 		return false, err
 	}
@@ -159,7 +159,7 @@ func (q *File) IsOwner() (bool, error) {
 // Rights returns the user rights code this user has for this event.
 // Available for online server only.
 func (q *File) Rights() (string, error) {
-	bts, err := q.api.get("file/rights", nil)
+	bts, err := q.api.Get("file/rights", nil)
 	if err != nil {
 		return "", err
 	}

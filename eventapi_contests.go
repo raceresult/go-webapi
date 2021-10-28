@@ -20,7 +20,7 @@ func newContests(api *EventAPI) *Contests {
 
 // PDF returns a PDF with all contests
 func (q *Contests) PDF() ([]byte, error) {
-	return q.api.get("contests/pdf", nil)
+	return q.api.Get("contests/pdf", nil)
 }
 
 // GetOne returns the contest with the given ID
@@ -28,7 +28,7 @@ func (q *Contests) GetOne(id int) (*model.Contest, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.get("contests/get", values)
+	bts, err := q.api.Get("contests/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (q *Contests) GetOne(id int) (*model.Contest, error) {
 
 // Get returns all contests
 func (q *Contests) Get() ([]model.Contest, error) {
-	bts, err := q.api.get("contests/get", nil)
+	bts, err := q.api.Get("contests/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (q *Contests) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.get("contests/delete", values)
+	_, err := q.api.Get("contests/delete", values)
 	return err
 }
 
@@ -68,7 +68,7 @@ func (q *Contests) Save(item model.Contest, oldID int) (int, error) {
 	values := urlValues{
 		"oldID": oldID,
 	}
-	bts, err := q.api.post("contests/save", values, item)
+	bts, err := q.api.Post("contests/save", values, item)
 	if err != nil {
 		return 0, err
 	}

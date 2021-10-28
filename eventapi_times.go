@@ -27,7 +27,7 @@ func (q *Times) ExcelExport(bib int, result int, lang string) ([]byte, error) {
 		"result": result,
 		"lang":   lang,
 	}
-	return q.api.get("times/excelexport", values)
+	return q.api.Get("times/excelexport", values)
 }
 
 // Delete deletes times matching the given filters
@@ -39,7 +39,7 @@ func (q *Times) Delete(bib, contest, result int, filter string, filterInfo strin
 		"filter":     filter,
 		"filterInfo": filterInfo,
 	}
-	_, err := q.api.get("times/delete", values)
+	_, err := q.api.Get("times/delete", values)
 	return err
 }
 
@@ -49,7 +49,7 @@ func (q *Times) Swap(bib1, bib2 int) error {
 		"bib1": bib1,
 		"bib2": bib2,
 	}
-	_, err := q.api.get("times/swap", values)
+	_, err := q.api.Get("times/swap", values)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (q *Times) SingleStart(result int, contest int, firstTime decimal.Decimal, 
 		"filter":    filter,
 		"noHistory": noHistory,
 	}
-	_, err := q.api.get("times/singlestart", values)
+	_, err := q.api.Get("times/singlestart", values)
 	return err
 }
 
@@ -83,7 +83,7 @@ func (q *Times) RandomTimes(result int, contest int, minTime decimal.Decimal, ma
 		"filter":       filter,
 		"noHistory":    noHistory,
 	}
-	_, err := q.api.get("times/randomtimes", values)
+	_, err := q.api.Get("times/randomtimes", values)
 	return err
 }
 
@@ -94,7 +94,7 @@ func (q *Times) Copy(bibFrom, bibTo int, overwriteExisting bool) error {
 		"bibTo":             bibTo,
 		"overwriteExisting": overwriteExisting,
 	}
-	_, err := q.api.get("times/copy", values)
+	_, err := q.api.Get("times/copy", values)
 	return err
 }
 
@@ -106,7 +106,7 @@ func (q *Times) Interpolate(destID, helperID int, contest int, helpers int) erro
 		"contest":  contest,
 		"helpers":  helpers,
 	}
-	_, err := q.api.get("times/interpolate", values)
+	_, err := q.api.Get("times/interpolate", values)
 	return err
 }
 
@@ -116,7 +116,7 @@ func (q *Times) Get(bib int, result int) ([]model.Time, error) {
 		"bib":    bib,
 		"result": result,
 	}
-	bts, err := q.api.get("times/get", values)
+	bts, err := q.api.Get("times/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func (q *Times) Count(bib int, contest int, result int, filter string) (int, err
 		"result":  result,
 		"filter":  filter,
 	}
-	bts, err := q.api.get("times/count", values)
+	bts, err := q.api.Get("times/count", values)
 	if err != nil {
 		return 0, err
 	}
@@ -155,7 +155,7 @@ func (q *Times) Add(passings []model.Passing, returnFields []string, contestFilt
 		"contestFilter":        contestFilter,
 		"ignoreBibToBibAssign": ignoreBibToBibAssign,
 	}
-	bts, err := q.api.post("times/add", values, passings)
+	bts, err := q.api.Post("times/add", values, passings)
 	if err != nil {
 		return nil, err
 	}

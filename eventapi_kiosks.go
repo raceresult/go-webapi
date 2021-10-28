@@ -20,7 +20,7 @@ func newKiosks(api *EventAPI) *Kiosks {
 
 // Names returns the names of all kiosks
 func (q *Kiosks) Names() ([]string, error) {
-	bts, err := q.api.get("kiosks/names", nil)
+	bts, err := q.api.Get("kiosks/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (q *Kiosks) Get(name string) (*kiosk.Kiosk, error) {
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.get("kiosks/get", values)
+	bts, err := q.api.Get("kiosks/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (q *Kiosks) Get(name string) (*kiosk.Kiosk, error) {
 
 // Save saves a kiosk
 func (q *Kiosks) Save(item *kiosk.Kiosk) error {
-	_, err := q.api.post("kiosks/save", nil, item)
+	_, err := q.api.Post("kiosks/save", nil, item)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (q *Kiosks) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.get("kiosks/delete", values)
+	_, err := q.api.Get("kiosks/delete", values)
 	return err
 }
 
@@ -64,7 +64,7 @@ func (q *Kiosks) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.get("kiosks/copy", values)
+	_, err := q.api.Get("kiosks/copy", values)
 	return err
 }
 
@@ -74,7 +74,7 @@ func (q *Kiosks) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.get("kiosks/rename", values)
+	_, err := q.api.Get("kiosks/rename", values)
 	return err
 }
 
@@ -83,6 +83,6 @@ func (q *Kiosks) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.get("kiosks/new", values)
+	_, err := q.api.Get("kiosks/new", values)
 	return err
 }

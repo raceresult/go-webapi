@@ -25,7 +25,7 @@ func (q *Vouchers) Get(code string) ([]model.Voucher, error) {
 	values := urlValues{
 		"code": code,
 	}
-	bts, err := q.api.get("vouchers/get", values)
+	bts, err := q.api.Get("vouchers/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -43,13 +43,13 @@ func (q *Vouchers) Delete(ids []int) error {
 	for _, id := range ids {
 		sids = append(sids, strconv.Itoa(id))
 	}
-	_, err := q.api.post("vouchers/delete", nil, strings.Join(sids, ";"))
+	_, err := q.api.Post("vouchers/delete", nil, strings.Join(sids, ";"))
 	return err
 }
 
 // Save saves vouchers and returns the IDs
 func (q *Vouchers) Save(items []model.Voucher) ([]int, error) {
-	bts, err := q.api.post("vouchers/save", nil, items)
+	bts, err := q.api.Post("vouchers/save", nil, items)
 	if err != nil {
 		return nil, err
 	}

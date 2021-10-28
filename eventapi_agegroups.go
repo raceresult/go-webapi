@@ -21,7 +21,7 @@ func newAgeGroups(api *EventAPI) *AgeGroups {
 
 // PDF returns a PDF with all age groups
 func (q *AgeGroups) PDF() ([]byte, error) {
-	return q.api.get("agegroups/pdf", nil)
+	return q.api.Get("agegroups/pdf", nil)
 }
 
 // Get returns age groups matching the given filters
@@ -31,7 +31,7 @@ func (q *AgeGroups) Get(contest int, set int, name string) ([]model.AgeGroup, er
 		"set":     set,
 		"name":    name,
 	}
-	bts, err := q.api.get("agegroups/get", values)
+	bts, err := q.api.Get("agegroups/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -50,13 +50,13 @@ func (q *AgeGroups) Delete(id int, contest int, set int) error {
 		"contest": contest,
 		"set":     set,
 	}
-	_, err := q.api.get("agegroups/delete", values)
+	_, err := q.api.Get("agegroups/delete", values)
 	return err
 }
 
 // Save saves age groups and returns the age group IDs
 func (q *AgeGroups) Save(items []model.AgeGroup) ([]int, error) {
-	bts, err := q.api.post("agegroups/save", nil, items)
+	bts, err := q.api.Post("agegroups/save", nil, items)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (q *AgeGroups) Generate(mode string, contest int, set int, ageBase bool, da
 		"date":    date,
 		"lang":    lang,
 	}
-	bts, err := q.api.get("agegroups/generate", values)
+	bts, err := q.api.Get("agegroups/generate", values)
 	if err != nil {
 		return nil, err
 	}
@@ -95,6 +95,6 @@ func (q *AgeGroups) Reassign(contest int, bib int, set int, addOnly bool) error 
 		"set":     set,
 		"addOnly": addOnly,
 	}
-	_, err := q.api.get("agegroups/reassign", values)
+	_, err := q.api.Get("agegroups/reassign", values)
 	return err
 }

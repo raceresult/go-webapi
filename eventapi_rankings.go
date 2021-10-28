@@ -20,7 +20,7 @@ func newRankings(api *EventAPI) *Rankings {
 
 // Get returns all rankings
 func (q *Rankings) Get() ([]model.Ranking, error) {
-	bts, err := q.api.get("ranks/get", nil)
+	bts, err := q.api.Get("ranks/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (q *Rankings) GetOne(id int) (*model.Ranking, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.get("ranks/get", values)
+	bts, err := q.api.Get("ranks/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -54,13 +54,13 @@ func (q *Rankings) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.get("ranks/delete", values)
+	_, err := q.api.Get("ranks/delete", values)
 	return err
 }
 
 // Save saves ranks and returns the rank IDs
 func (q *Rankings) Save(items []model.Ranking) ([]int, error) {
-	bts, err := q.api.post("ranks/save", nil, items)
+	bts, err := q.api.Post("ranks/save", nil, items)
 	if err != nil {
 		return nil, err
 	}

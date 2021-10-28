@@ -25,7 +25,7 @@ func (q *Results) Get(name string, onlyFormulas, onlyNoFormulas bool) ([]model.R
 		"onlyFormulas":   onlyFormulas,
 		"onlyNoFormulas": onlyNoFormulas,
 	}
-	bts, err := q.api.get("results/get", values)
+	bts, err := q.api.Get("results/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (q *Results) GetOne(id int) (*model.Result, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.get("results/get", values)
+	bts, err := q.api.Get("results/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -59,12 +59,12 @@ func (q *Results) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.get("results/delete", values)
+	_, err := q.api.Get("results/delete", values)
 	return err
 }
 
 // Save saves results and returns the result IDs
 func (q *Results) Save(items []model.Result) error { // TODO: oldID
-	_, err := q.api.post("results/save", nil, items)
+	_, err := q.api.Post("results/save", nil, items)
 	return err
 }

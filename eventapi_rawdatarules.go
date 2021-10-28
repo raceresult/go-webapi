@@ -24,7 +24,7 @@ func (q *RawDataRules) Get(id int, resultID int) ([]model.RawDataRule, error) {
 		"id":       id,
 		"resultID": resultID,
 	}
-	bts, err := q.api.get("rawdatarules/get", values)
+	bts, err := q.api.Get("rawdatarules/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -41,13 +41,13 @@ func (q *RawDataRules) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.get("rawdatarules/delete", values)
+	_, err := q.api.Get("rawdatarules/delete", values)
 	return err
 }
 
 // Save saves raw data rule and returns the IDs
 func (q *RawDataRules) Save(items []model.RawDataRule) ([]int, error) {
-	bts, err := q.api.post("rawdatarules/save", nil, items)
+	bts, err := q.api.Post("rawdatarules/save", nil, items)
 	if err != nil {
 		return nil, err
 	}
