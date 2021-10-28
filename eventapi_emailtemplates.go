@@ -21,7 +21,7 @@ func newEmailTemplates(api *EventAPI) *EmailTemplates {
 
 // Names returns the names of all email templates
 func (q *EmailTemplates) Names() ([]string, error) {
-	bts, err := q.api.Get("emailtemplates/names", nil)
+	bts, err := q.api.get("emailtemplates/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (q *EmailTemplates) Get(name string) (*emailtemplate.EmailTemplate, error) 
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("emailtemplates/get", values)
+	bts, err := q.api.get("emailtemplates/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (q *EmailTemplates) Get(name string) (*emailtemplate.EmailTemplate, error) 
 
 // Save saves an email template
 func (q *EmailTemplates) Save(item *label.Label) error {
-	_, err := q.api.Post("emailtemplates/save", nil, item)
+	_, err := q.api.post("emailtemplates/save", nil, item)
 	return err
 }
 
@@ -55,7 +55,7 @@ func (q *EmailTemplates) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("emailtemplates/delete", values)
+	_, err := q.api.get("emailtemplates/delete", values)
 	return err
 }
 
@@ -65,7 +65,7 @@ func (q *EmailTemplates) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("emailtemplates/copy", values)
+	_, err := q.api.get("emailtemplates/copy", values)
 	return err
 }
 
@@ -75,7 +75,7 @@ func (q *EmailTemplates) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("emailtemplates/rename", values)
+	_, err := q.api.get("emailtemplates/rename", values)
 	return err
 }
 
@@ -84,7 +84,7 @@ func (q *EmailTemplates) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("emailtemplates/new", values)
+	_, err := q.api.get("emailtemplates/new", values)
 	return err
 }
 
@@ -95,7 +95,7 @@ func (q *EmailTemplates) Preview(name string, filter string, lang string) ([]ema
 		"filter": filter,
 		"lang":   lang,
 	}
-	bts, err := q.api.Get("emailtemplates/preview", values)
+	bts, err := q.api.get("emailtemplates/preview", values)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (q *EmailTemplates) SendPreview(name string, lang string, preview *emailtem
 		"name": name,
 		"lang": lang,
 	}
-	_, err := q.api.Post("emailtemplates/sendpreview", values, preview)
+	_, err := q.api.post("emailtemplates/sendpreview", values, preview)
 	return err
 }
 
@@ -123,6 +123,6 @@ func (q *EmailTemplates) Send(name string, filter string, lang string) error {
 		"filter": filter,
 		"lang":   lang,
 	}
-	_, err := q.api.Get("emailtemplates/send", values)
+	_, err := q.api.get("emailtemplates/send", values)
 	return err
 }

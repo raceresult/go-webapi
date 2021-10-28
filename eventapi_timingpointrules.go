@@ -20,7 +20,7 @@ func newTimingPointRules(api *EventAPI) *TimingPointRules {
 
 // Get returns all timing point rules
 func (q *TimingPointRules) Get() ([]model.TimingPointRule, error) {
-	bts, err := q.api.Get("timingpointrules/get", nil)
+	bts, err := q.api.get("timingpointrules/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (q *TimingPointRules) GetOne(id int) (*model.TimingPointRule, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.Get("timingpointrules/get", values)
+	bts, err := q.api.get("timingpointrules/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -54,13 +54,13 @@ func (q *TimingPointRules) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.Get("timingpointrules/delete", values)
+	_, err := q.api.get("timingpointrules/delete", values)
 	return err
 }
 
 // Save saves timing point rule and returns the IDs
 func (q *TimingPointRules) Save(items []model.TimingPointRule) ([]int, error) {
-	bts, err := q.api.Post("timingpointrules/save", nil, items)
+	bts, err := q.api.post("timingpointrules/save", nil, items)
 	if err != nil {
 		return nil, err
 	}

@@ -21,7 +21,7 @@ func newTeamScores(api *EventAPI) *TeamScores {
 
 // Get returns all team scores
 func (q *TeamScores) Get() ([]model.TeamScore, error) {
-	bts, err := q.api.Get("teamscores/get", nil)
+	bts, err := q.api.get("teamscores/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (q *TeamScores) GetOne(id int) (*model.TeamScore, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.Get("teamscores/get", values)
+	bts, err := q.api.get("teamscores/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -58,12 +58,12 @@ func (q *TeamScores) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.Get("teamscores/delete", values)
+	_, err := q.api.get("teamscores/delete", values)
 	return err
 }
 
 // Save saves a team score
 func (q *TeamScores) Save(item model.TeamScore) error {
-	_, err := q.api.Post("teamscores/save", nil, item)
+	_, err := q.api.post("teamscores/save", nil, item)
 	return err
 }

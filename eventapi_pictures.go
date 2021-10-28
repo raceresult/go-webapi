@@ -21,7 +21,7 @@ func (q *Pictures) Names(folder string) ([]string, error) {
 	values := urlValues{
 		"folder": folder,
 	}
-	bts, err := q.api.Get("pictures/names", values)
+	bts, err := q.api.get("pictures/names", values)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (q *Pictures) Get(name string) ([]byte, error) {
 	values := urlValues{
 		"name": name,
 	}
-	return q.api.Get("pictures/get", values)
+	return q.api.get("pictures/get", values)
 }
 
 // Thumbnail returns a thumbnail of the picture with the given name
@@ -43,7 +43,7 @@ func (q *Pictures) Thumbnail(name string, maxWidth, maxHeight int) ([]byte, erro
 		"maxWidth":  maxWidth,
 		"maxHeight": maxHeight,
 	}
-	return q.api.Get("pictures/thumbnail", values)
+	return q.api.get("pictures/thumbnail", values)
 }
 
 // Info returns infos about the picture with the given name
@@ -51,7 +51,7 @@ func (q *Pictures) Info(name string) (string, error) {
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("pictures/info", values)
+	bts, err := q.api.get("pictures/info", values)
 	if err != nil {
 		return "", err
 	}
@@ -63,7 +63,7 @@ func (q *Pictures) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("pictures/delete", values)
+	_, err := q.api.get("pictures/delete", values)
 	return err
 }
 
@@ -73,6 +73,6 @@ func (q *Pictures) Import(folder string, name string, content io.Reader) error {
 		"folder": folder,
 		"name":   name,
 	}
-	_, err := q.api.Post("pictures/import", values, content)
+	_, err := q.api.post("pictures/import", values, content)
 	return err
 }

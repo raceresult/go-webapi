@@ -17,7 +17,7 @@ func newSynchronization(api *EventAPI) *Synchronization {
 // IsCheckedOut returns true if the file has status check out.
 // Available for online server only.
 func (q *Synchronization) IsCheckedOut() (bool, error) {
-	bts, err := q.api.Get("synchronization/isCheckedOut", nil)
+	bts, err := q.api.get("synchronization/isCheckedOut", nil)
 	if err != nil {
 		return false, err
 	}
@@ -32,6 +32,6 @@ func (q *Synchronization) IsCheckedOut() (bool, error) {
 // SetCheckedIn sets the status of the event to checkedIn.
 // Available for online server only. Use to set lost file back to checked in.
 func (q *Synchronization) SetCheckedIn() error {
-	_, err := q.api.Get("synchronization/setCheckedIn", nil)
+	_, err := q.api.get("synchronization/setCheckedIn", nil)
 	return err
 }

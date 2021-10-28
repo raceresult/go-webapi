@@ -14,7 +14,7 @@ func newDependencies(api *EventAPI) *Dependencies {
 
 // Show returns a string containing the dependency tree
 func (q *Dependencies) Show() (string, error) {
-	bts, err := q.api.Get("dependencies/show", nil)
+	bts, err := q.api.get("dependencies/show", nil)
 	if err != nil {
 		return "", err
 	}
@@ -23,7 +23,7 @@ func (q *Dependencies) Show() (string, error) {
 
 // CircularReferences returns a string containing the list of circular references
 func (q *Dependencies) CircularReferences() (string, error) {
-	bts, err := q.api.Get("dependencies/circularreferences", nil)
+	bts, err := q.api.get("dependencies/circularreferences", nil)
 	if err != nil {
 		return "", err
 	}

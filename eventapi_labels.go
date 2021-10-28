@@ -20,7 +20,7 @@ func newLabels(api *EventAPI) *Labels {
 
 // Names returns the names of all labels
 func (q *Labels) Names() ([]string, error) {
-	bts, err := q.api.Get("labels/names", nil)
+	bts, err := q.api.get("labels/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (q *Labels) Get(name string) (*label.Label, error) {
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("labels/get", values)
+	bts, err := q.api.get("labels/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (q *Labels) Get(name string) (*label.Label, error) {
 
 // Save saves a label
 func (q *Labels) Save(item *label.Label) error {
-	_, err := q.api.Post("labels/save", nil, item)
+	_, err := q.api.post("labels/save", nil, item)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (q *Labels) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("labels/delete", values)
+	_, err := q.api.get("labels/delete", values)
 	return err
 }
 
@@ -64,7 +64,7 @@ func (q *Labels) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("labels/copy", values)
+	_, err := q.api.get("labels/copy", values)
 	return err
 }
 
@@ -74,7 +74,7 @@ func (q *Labels) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("labels/rename", values)
+	_, err := q.api.get("labels/rename", values)
 	return err
 }
 
@@ -83,7 +83,7 @@ func (q *Labels) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("labels/new", values)
+	_, err := q.api.get("labels/new", values)
 	return err
 }
 
@@ -96,5 +96,5 @@ func (q *Labels) Create(name string, contests []int, startX, startY int, lang st
 		"startY":  startY,
 		"lang":    lang,
 	}
-	return q.api.Get("labels/create", values)
+	return q.api.get("labels/create", values)
 }

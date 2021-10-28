@@ -24,7 +24,7 @@ func (q *History) Get(bib int) ([]model.History, error) {
 	values := urlValues{
 		"bib": bib,
 	}
-	bts, err := q.api.Get("history/get", values)
+	bts, err := q.api.get("history/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (q *History) ExcelExport(bib int, lang string) ([]byte, error) {
 		"bib":  bib,
 		"lang": lang,
 	}
-	return q.api.Get("history/excelexport", values)
+	return q.api.get("history/excelexport", values)
 }
 
 // Delete deletes history entries matching the given filters
@@ -55,7 +55,7 @@ func (q *History) Delete(bib int, contest int, field string, dateForm, dateTo vb
 		"dateTo":   dateTo,
 		"filter":   filter,
 	}
-	_, err := q.api.Get("history/delete", values)
+	_, err := q.api.get("history/delete", values)
 	return err
 }
 
@@ -69,7 +69,7 @@ func (q *History) Count(bib int, contest int, field string, dateForm, dateTo vbd
 		"dateTo":   dateTo,
 		"filter":   filter,
 	}
-	bts, err := q.api.Get("history/count", values)
+	bts, err := q.api.get("history/count", values)
 	if err != nil {
 		return 0, err
 	}

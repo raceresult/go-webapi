@@ -25,7 +25,7 @@ func (q *Participants) GetFields(bib int, fields []string) (variant.VariantMap, 
 		"bib":    bib,
 		"fields": fields,
 	}
-	bts, err := q.api.Get("part/getfields", values)
+	bts, err := q.api.get("part/getfields", values)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (q *Participants) SaveExpression(bib int, field string, expression string, 
 		"expression": expression,
 		"noHistory":  noHistory,
 	}
-	_, err := q.api.Get("part/saveexpression", values)
+	_, err := q.api.get("part/saveexpression", values)
 	return err
 }
 
@@ -53,7 +53,7 @@ func (q *Participants) SaveValueArray(values []model.SaveValueArrayItem, noHisto
 	uvalues := urlValues{
 		"noHistory": noHistory,
 	}
-	_, err := q.api.Post("part/savevaluearray", uvalues, values)
+	_, err := q.api.post("part/savevaluearray", uvalues, values)
 	return err
 }
 
@@ -63,7 +63,7 @@ func (q *Participants) SaveFields(bib int, values variant.VariantMap, noHistory 
 		"bib":       bib,
 		"noHistory": noHistory,
 	}
-	_, err := q.api.Post("part/savefields", uvalues, values)
+	_, err := q.api.post("part/savefields", uvalues, values)
 	return err
 }
 
@@ -72,7 +72,7 @@ func (q *Participants) Save(values []variant.VariantMap, noHistory bool) error {
 	uvalues := urlValues{
 		"noHistory": noHistory,
 	}
-	_, err := q.api.Post("part/savefields", uvalues, values)
+	_, err := q.api.post("part/savefields", uvalues, values)
 	return err
 }
 
@@ -91,7 +91,7 @@ func (q *Participants) Delete(filter string, bib int, contest int) error {
 	} else {
 		values["contest"] = contest
 	}
-	_, err := q.api.Get("part/delete", values)
+	_, err := q.api.get("part/delete", values)
 	return err
 }
 
@@ -102,7 +102,7 @@ func (q *Participants) New(bib int, contest int, firstfree bool) (int, error) {
 		"contest":   contest,
 		"firstfree": firstfree,
 	}
-	bts, err := q.api.Get("part/new", values)
+	bts, err := q.api.get("part/new", values)
 	if err != nil {
 		return 0, err
 	}
@@ -118,7 +118,7 @@ func (q *Participants) EntryFee(bibs []int) ([]model.EntryFeeItem, error) {
 	values := urlValues{
 		"bibs": intSliceToString(bibs),
 	}
-	bts, err := q.api.Get("part/entryfee", values)
+	bts, err := q.api.get("part/entryfee", values)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,7 @@ func (q *Participants) CreateBlanks(from, to int, contest int, skipExcluded bool
 		"contest":      contest,
 		"skipExcluded": skipExcluded,
 	}
-	_, err := q.api.Get("part/clearbankinformation", values)
+	_, err := q.api.get("part/clearbankinformation", values)
 	return err
 }
 
@@ -147,7 +147,7 @@ func (q *Participants) SwapBibs(bib1, bib2 int) error {
 		"bib1": bib1,
 		"bib2": bib2,
 	}
-	_, err := q.api.Get("part/swapbibs", values)
+	_, err := q.api.get("part/swapbibs", values)
 	return err
 }
 
@@ -160,7 +160,7 @@ func (q *Participants) ResetBibs(sort string, firstBib int, ranges bool, filter 
 		"filter":    filter,
 		"noHistory": noHistory,
 	}
-	_, err := q.api.Get("part/resetbibs", values)
+	_, err := q.api.get("part/resetbibs", values)
 	return err
 }
 
@@ -170,7 +170,7 @@ func (q *Participants) DataManipulation(values map[string]string, filter string,
 		"filter":    filter,
 		"noHistory": noHistory,
 	}
-	_, err := q.api.Post("part/datamanipulation", uvalues, values)
+	_, err := q.api.post("part/datamanipulation", uvalues, values)
 	return err
 }
 
@@ -181,7 +181,7 @@ func (q *Participants) ClearBankInformation(bib int, contest int, filter string)
 		"contest": contest,
 		"filter":  filter,
 	}
-	_, err := q.api.Get("part/clearbankinformation", values)
+	_, err := q.api.get("part/clearbankinformation", values)
 	return err
 }
 
@@ -199,7 +199,7 @@ func (q *Participants) ImportSES(file []byte, filter string, identity string, ad
 		"timesTo":            timesTo,
 		"importRawData":      importRawData,
 	}
-	bts, err := q.api.Post("part/importses", values, file)
+	bts, err := q.api.post("part/importses", values, file)
 	if err != nil {
 		return nil, err
 	}
@@ -220,7 +220,7 @@ func (q *Participants) Import(file []byte, addParticipants bool, updateParticipa
 		"identityColumns":    identityColumns,
 		"lang":               lang,
 	}
-	bts, err := q.api.Post("part/import", values, file)
+	bts, err := q.api.post("part/import", values, file)
 	if err != nil {
 		return nil, err
 	}
@@ -238,7 +238,7 @@ func (q *Participants) FreeBib(maxBibPlus1 bool, contest int, preferred int) (in
 		"contest":     contest,
 		"preferred":   preferred,
 	}
-	bts, err := q.api.Get("part/freebib", values)
+	bts, err := q.api.get("part/freebib", values)
 	if err != nil {
 		return 0, err
 	}
@@ -255,7 +255,7 @@ func (q *Participants) FrequentClubs(wildcard string, maxNumber int) ([]string, 
 		"wildcard":  wildcard,
 		"maxNumber": maxNumber,
 	}
-	bts, err := q.api.Get("part/frequentclubs", values)
+	bts, err := q.api.get("part/frequentclubs", values)
 	if err != nil {
 		return nil, err
 	}

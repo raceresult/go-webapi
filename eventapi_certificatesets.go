@@ -20,7 +20,7 @@ func newCertificateSets(api *EventAPI) *CertificateSets {
 
 // Names returns the names of all certificate sets
 func (q *CertificateSets) Names() ([]string, error) {
-	bts, err := q.api.Get("certificatesets/names", nil)
+	bts, err := q.api.get("certificatesets/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (q *CertificateSets) Get(name string) (*certificateset.CertificateSet, erro
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("certificatesets/get", values)
+	bts, err := q.api.get("certificatesets/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (q *CertificateSets) Get(name string) (*certificateset.CertificateSet, erro
 
 // Save saves a certificate sets
 func (q *CertificateSets) Save(item *certificateset.CertificateSet) error {
-	_, err := q.api.Post("certificatesets/save", nil, item)
+	_, err := q.api.post("certificatesets/save", nil, item)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (q *CertificateSets) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("certificatesets/delete", values)
+	_, err := q.api.get("certificatesets/delete", values)
 	return err
 }
 
@@ -64,7 +64,7 @@ func (q *CertificateSets) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("certificatesets/copy", values)
+	_, err := q.api.get("certificatesets/copy", values)
 	return err
 }
 
@@ -74,7 +74,7 @@ func (q *CertificateSets) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("certificatesets/rename", values)
+	_, err := q.api.get("certificatesets/rename", values)
 	return err
 }
 
@@ -83,7 +83,7 @@ func (q *CertificateSets) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("certificatesets/new", values)
+	_, err := q.api.get("certificatesets/new", values)
 	return err
 }
 
@@ -95,7 +95,7 @@ func (q *CertificateSets) Create(name string, contests []int, filter string, lan
 		"filter":  filter,
 		"lang":    lang,
 	}
-	return q.api.Get("certificatesets/create", values)
+	return q.api.get("certificatesets/create", values)
 }
 
 // Count returns the count of participants contained in a certificate set
@@ -104,7 +104,7 @@ func (q *CertificateSets) Count(name string, contests []int) (int, error) {
 		"name":    name,
 		"contest": intSliceToString(contests),
 	}
-	bts, err := q.api.Get("certificatesets/count", values)
+	bts, err := q.api.get("certificatesets/count", values)
 	if err != nil {
 		return 0, err
 	}

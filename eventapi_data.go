@@ -23,7 +23,7 @@ func (q *Data) Count(filter string) (int, error) {
 	values := urlValues{
 		"filter": filter,
 	}
-	bts, err := q.api.Get("data/count", values)
+	bts, err := q.api.get("data/count", values)
 	if err != nil {
 		return 0, err
 	}
@@ -49,7 +49,7 @@ func (q *Data) List(fields []string, filter string, sort []string, limitFrom, li
 		"selectorResult":  selectorResult,
 		"listFormat":      "JSON",
 	}
-	bts, err := q.api.Get("data/list", values)
+	bts, err := q.api.get("data/list", values)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (q *Data) Transformation(colField string, rowFields []string, filter string
 		"mode":        mode,
 		"sortByValue": sortByValue,
 	}
-	bts, err := q.api.Get("data/transformation", values)
+	bts, err := q.api.get("data/transformation", values)
 	if err != nil {
 		return nil, err
 	}

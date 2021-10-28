@@ -20,7 +20,7 @@ func newChipFile(api *EventAPI) *ChipFile {
 
 // Get returns the entire chip file
 func (q *ChipFile) Get() ([]model.ChipFileEntry, error) {
-	bts, err := q.api.Get("chipfile/get", nil)
+	bts, err := q.api.get("chipfile/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -48,12 +48,12 @@ func (q *ChipFile) Save(items []model.ChipFileEntry) error {
 	}
 	bts := []byte(strings.Join(arr, "\r\n"))
 
-	_, err := q.api.Post("chipfile/save", nil, bts)
+	_, err := q.api.post("chipfile/save", nil, bts)
 	return err
 }
 
 // Clear clears the entire chip file
 func (q *ChipFile) Clear() error {
-	_, err := q.api.Get("chipfile/clear", nil)
+	_, err := q.api.get("chipfile/clear", nil)
 	return err
 }

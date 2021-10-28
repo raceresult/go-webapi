@@ -26,7 +26,7 @@ func (q *OverwriteValues) Count(bib, result, contest int, filter string) (int, e
 		"contest": contest,
 		"filter":  filter,
 	}
-	bts, err := q.api.Get("overwritevalues/count", values)
+	bts, err := q.api.get("overwritevalues/count", values)
 	if err != nil {
 		return 0, err
 	}
@@ -44,7 +44,7 @@ func (q *OverwriteValues) Delete(bib, result, contest int, filter string) error 
 		"contest": contest,
 		"filter":  filter,
 	}
-	_, err := q.api.Get("overwritevalues/delete", values)
+	_, err := q.api.get("overwritevalues/delete", values)
 	return err
 }
 
@@ -55,6 +55,6 @@ func (q *OverwriteValues) Save(bib int, result int, value decimal.Decimal) error
 		"result": result,
 		"value":  value,
 	}
-	_, err := q.api.Get("overwritevalues/save", values)
+	_, err := q.api.get("overwritevalues/save", values)
 	return err
 }

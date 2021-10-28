@@ -20,7 +20,7 @@ func newTimingPoints(api *EventAPI) *TimingPoints {
 
 // Get returns all timing points
 func (q *TimingPoints) Get() ([]model.TimingPoint, error) {
-	bts, err := q.api.Get("timingpoints/get", nil)
+	bts, err := q.api.get("timingpoints/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (q *TimingPoints) GetOne(name string) (*model.TimingPoint, error) {
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("timingpoints/get", values)
+	bts, err := q.api.get("timingpoints/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (q *TimingPoints) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("timingpoints/delete", values)
+	_, err := q.api.get("timingpoints/delete", values)
 	return err
 }
 
@@ -63,6 +63,6 @@ func (q *TimingPoints) Save(item model.TimingPoint, oldName string) error {
 	values := urlValues{
 		"oldName": oldName,
 	}
-	_, err := q.api.Post("timingpoints/save", values, item)
+	_, err := q.api.post("timingpoints/save", values, item)
 	return err
 }

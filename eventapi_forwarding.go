@@ -24,7 +24,7 @@ type ForwardingInfo struct {
 
 // Active returns true if forwarding is running
 func (q *Forwarding) Active() (bool, error) {
-	bts, err := q.api.Get("forwarding/active", nil)
+	bts, err := q.api.get("forwarding/active", nil)
 	if err != nil {
 		return false, err
 	}
@@ -41,25 +41,25 @@ func (q *Forwarding) Start(hostname, eventid, authToken string) error {
 		"eventid":   eventid,
 		"authToken": authToken,
 	}
-	_, err := q.api.Get("forwarding/start", values)
+	_, err := q.api.get("forwarding/start", values)
 	return err
 }
 
 // Restart restarts the forwarding process with previous settings
 func (q *Forwarding) Restart() error {
-	_, err := q.api.Get("forwarding/restart", nil)
+	_, err := q.api.get("forwarding/restart", nil)
 	return err
 }
 
 // Stop stops the forwarding process
 func (q *Forwarding) Stop() error {
-	_, err := q.api.Get("forwarding/stop", nil)
+	_, err := q.api.get("forwarding/stop", nil)
 	return err
 }
 
 // Info returns statistics about the forwarding process
 func (q *Forwarding) Info() (ForwardingInfo, error) {
-	bts, err := q.api.Get("forwarding/info", nil)
+	bts, err := q.api.get("forwarding/info", nil)
 	if err != nil {
 		return ForwardingInfo{}, err
 	}

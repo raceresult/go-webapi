@@ -20,7 +20,7 @@ func newUserDefinedFields(api *EventAPI) *UserDefinedFields {
 
 // Get returns all user defined fields
 func (q *UserDefinedFields) Get() ([]model.UserDefinedField, error) {
-	bts, err := q.api.Get("userdefinedfields/get", nil)
+	bts, err := q.api.get("userdefinedfields/get", nil)
 	if err != nil {
 		return nil, err
 	}

@@ -22,7 +22,7 @@ func newStatistics(api *EventAPI) *Statistics {
 
 // Names returns the names of all statistics
 func (q *Statistics) Names() ([]string, error) {
-	bts, err := q.api.Get("statistics/names", nil)
+	bts, err := q.api.get("statistics/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (q *Statistics) Get(name string) (*statistic.Statistics, error) {
 	values := urlValues{
 		"name": name,
 	}
-	bts, err := q.api.Get("statistics/get", values)
+	bts, err := q.api.get("statistics/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (q *Statistics) Get(name string) (*statistic.Statistics, error) {
 
 // Save saves a statistics
 func (q *Statistics) Save(item *statistic.Statistics) error {
-	_, err := q.api.Post("statistics/save", nil, item)
+	_, err := q.api.post("statistics/save", nil, item)
 	return err
 }
 
@@ -56,7 +56,7 @@ func (q *Statistics) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("statistics/delete", values)
+	_, err := q.api.get("statistics/delete", values)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (q *Statistics) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("statistics/copy", values)
+	_, err := q.api.get("statistics/copy", values)
 	return err
 }
 
@@ -76,7 +76,7 @@ func (q *Statistics) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("statistics/rename", values)
+	_, err := q.api.get("statistics/rename", values)
 	return err
 }
 
@@ -85,7 +85,7 @@ func (q *Statistics) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("statistics/new", values)
+	_, err := q.api.get("statistics/new", values)
 	return err
 }
 
@@ -96,7 +96,7 @@ func (q *Statistics) Create(name string, format string, contests []int) ([]byte,
 		"format":  format,
 		"contest": intSliceToString(contests),
 	}
-	return q.api.Get("statistics/create", values)
+	return q.api.get("statistics/create", values)
 }
 
 // Statistics creates arbitrary statistics
@@ -108,7 +108,7 @@ func (q *Statistics) Statistics(row, col, filter, field string, aggregation stat
 		"field":       field,
 		"aggregation": int(aggregation),
 	}
-	bts, err := q.api.Get("statistics/statistics", values)
+	bts, err := q.api.get("statistics/statistics", values)
 	if err != nil {
 		return nil, err
 	}

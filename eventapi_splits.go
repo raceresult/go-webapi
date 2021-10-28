@@ -25,7 +25,7 @@ func (q *Splits) Get(contest int) ([]model.Split, error) {
 	values := urlValues{
 		"contest": contest,
 	}
-	bts, err := q.api.Get("splits/get", values)
+	bts, err := q.api.get("splits/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (q *Splits) GetOne(id int) (*model.Split, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.Get("splits/get", values)
+	bts, err := q.api.get("splits/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -63,13 +63,13 @@ func (q *Splits) Delete(ids []int) error {
 	values := urlValues{
 		"id": strings.Join(sids, ","),
 	}
-	_, err := q.api.Get("splits/delete", values)
+	_, err := q.api.get("splits/delete", values)
 	return err
 }
 
 // Save saves split and returns the IDs
 func (q *Splits) Save(items []model.Split) ([]int, error) {
-	bts, err := q.api.Post("splits/save", nil, items)
+	bts, err := q.api.post("splits/save", nil, items)
 	if err != nil {
 		return nil, err
 	}

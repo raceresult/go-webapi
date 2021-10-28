@@ -23,7 +23,7 @@ func (q *Exporters) Get(id int) ([]model.Exporter, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.Get("exporters/get", values)
+	bts, err := q.api.get("exporters/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -40,13 +40,13 @@ func (q *Exporters) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.Get("exporters/delete", values)
+	_, err := q.api.get("exporters/delete", values)
 	return err
 }
 
 // Save saves a exporter and returns the ID
 func (q *Exporters) Save(item model.Exporter) (int, error) {
-	bts, err := q.api.Post("exporters/save", nil, item)
+	bts, err := q.api.post("exporters/save", nil, item)
 	if err != nil {
 		return 0, err
 	}

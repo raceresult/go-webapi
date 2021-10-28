@@ -20,7 +20,7 @@ func newCustomFields(api *EventAPI) *CustomFields {
 
 // Get returns custom fields matching the given filters
 func (q *CustomFields) Get() ([]model.CustomField, error) {
-	bts, err := q.api.Get("fields/get", nil)
+	bts, err := q.api.get("fields/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (q *CustomFields) GetOne(id int) (*model.CustomField, error) {
 	values := urlValues{
 		"id": id,
 	}
-	bts, err := q.api.Get("fields/get", values)
+	bts, err := q.api.get("fields/get", values)
 	if err != nil {
 		return nil, err
 	}
@@ -54,13 +54,13 @@ func (q *CustomFields) Delete(id int) error {
 	values := urlValues{
 		"id": id,
 	}
-	_, err := q.api.Get("fields/delete", values)
+	_, err := q.api.get("fields/delete", values)
 	return err
 }
 
 // Save saves custom fields and returns the IDs
 func (q *CustomFields) Save(items []model.CustomField) ([]int, error) {
-	bts, err := q.api.Post("fields/save", nil, items)
+	bts, err := q.api.post("fields/save", nil, items)
 	if err != nil {
 		return nil, err
 	}

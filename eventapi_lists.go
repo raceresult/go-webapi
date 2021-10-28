@@ -18,7 +18,7 @@ func newLists(api *EventAPI) *Lists {
 
 // Names returns the names of all lists
 func (q *Lists) Names() ([]string, error) {
-	bts, err := q.api.Get("lists/names", nil)
+	bts, err := q.api.get("lists/names", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (q *Lists) Delete(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("lists/delete", values)
+	_, err := q.api.get("lists/delete", values)
 	return err
 }
 
@@ -40,7 +40,7 @@ func (q *Lists) Copy(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("lists/copy", values)
+	_, err := q.api.get("lists/copy", values)
 	return err
 }
 
@@ -50,7 +50,7 @@ func (q *Lists) Rename(name, newName string) error {
 		"name":    name,
 		"newName": newName,
 	}
-	_, err := q.api.Get("lists/rename", values)
+	_, err := q.api.get("lists/rename", values)
 	return err
 }
 
@@ -59,7 +59,7 @@ func (q *Lists) New(name string) error {
 	values := urlValues{
 		"name": name,
 	}
-	_, err := q.api.Get("lists/new", values)
+	_, err := q.api.get("lists/new", values)
 	return err
 }
 
@@ -87,7 +87,7 @@ func (q *Lists) ParticipantsNotActivated(name string, contests []int, onlyWithUn
 		"contest":             intSliceToString(contests),
 		"onlyWithUnderscores": onlyWithUnderscores,
 	}
-	bts, err := q.api.Get("lists/participantsnotactivated", values)
+	bts, err := q.api.get("lists/participantsnotactivated", values)
 	if err != nil {
 		return 0, err
 	}

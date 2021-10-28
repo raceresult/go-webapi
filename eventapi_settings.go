@@ -30,7 +30,7 @@ func (q *Settings) Get(names ...string) (variant.VariantMap, error) {
 	default:
 		values["names"] = strings.Join(names, ",")
 	}
-	bts, err := q.api.Get("settings/getsettings", values)
+	bts, err := q.api.get("settings/getsettings", values)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (q *Settings) GetValue(name string) (variant.Variant, error) {
 
 // Save saves setting values
 func (q *Settings) Save(values variant.VariantMap) error {
-	_, err := q.api.Post("settings/savesettings", nil, values)
+	_, err := q.api.post("settings/savesettings", nil, values)
 	return err
 }
 
@@ -71,7 +71,7 @@ func (q *Settings) Delete(name string, contest int, result int) error {
 		"contest": contest,
 		"result":  result,
 	}
-	_, err := q.api.Get("settings/delete", values)
+	_, err := q.api.get("settings/delete", values)
 	return err
 }
 
@@ -80,7 +80,7 @@ func (q *Settings) NamesByPrefix(prefix string) ([]string, error) {
 	values := urlValues{
 		"prefix": prefix,
 	}
-	bts, err := q.api.Get("settings/settingnamesbyprefix", values)
+	bts, err := q.api.get("settings/settingnamesbyprefix", values)
 	if err != nil {
 		return nil, err
 	}
