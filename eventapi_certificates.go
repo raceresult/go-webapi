@@ -1,5 +1,11 @@
 package webapi
 
+import (
+	"encoding/json"
+
+	"github.com/raceresult/go-model/certificate"
+)
+
 // Certificates contains all api endpoints regarding certificates
 type Certificates struct {
 	api *EventAPI
@@ -19,6 +25,28 @@ func (q *Certificates) Names() ([]string, error) {
 		return nil, err
 	}
 	return parseJsonStringArr(bts)
+}
+
+// Get returns a certificate
+func (q *Certificates) Get(name string) (*certificate.Certificate, error) {
+	values := urlValues{
+		"name": name,
+	}
+	bts, err := q.api.get("certificates/get", values)
+	if err != nil {
+		return nil, err
+	}
+	var dest certificate.Certificate
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return &dest, nil
+}
+
+// Save saves a certificate
+func (q *Certificates) Save(item *certificate.Certificate) error {
+	_, err := q.api.post("certificates/save", nil, item)
+	return err
 }
 
 // Delete deletes a certificate
