@@ -61,6 +61,11 @@ func (q *API) GetTimeout() time.Duration {
 	return time.Duration(atomic.LoadInt32(&q.timeout_ms)) * time.Millisecond
 }
 
+// SessionID returns the session ID
+func (q *API) SessionID() string {
+	return q.public.sessionID
+}
+
 // get makes a GET request on the server
 func (q *API) get(eventID, cmd string, values urlValues) ([]byte, error) {
 	req, err := http.NewRequest("GET", q.buildURL(eventID, cmd, values), nil)
