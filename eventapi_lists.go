@@ -89,6 +89,115 @@ func (q *Lists) Save(item *list.List) error {
 	return err
 }
 
+// CreatePDF creates a list in PDF format
+func (q *Lists) CreatePDF(name string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "pdf",
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateHTML creates a list in HTML format
+func (q *Lists) CreateHTML(name string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "html",
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateXML creates a list in XML format
+func (q *Lists) CreateXML(name string, charset string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "xml",
+		"charset":        charset,
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateJSON creates a list in JSON format
+func (q *Lists) CreateJSON(name string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "JSON",
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateNewspaper creates a list in Newspaper format
+func (q *Lists) CreateNewspaper(name string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "newspaper",
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateCSV creates a list in CSV format
+func (q *Lists) CreateCSV(name string, charset string, separator string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "csv",
+		"charset":        charset,
+		"separator":      separator,
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateText creates a list in Text format
+func (q *Lists) CreateText(name string, charset string, separator string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "text",
+		"charset":        charset,
+		"separator":      separator,
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
+// CreateXLSX creates a list in XLSX format
+func (q *Lists) CreateXLSX(name string, contests []int, filter string, selectorResult string, lang string) ([]byte, error) {
+	values := urlValues{
+		"name":           name,
+		"format":         "xlsx",
+		"contest":        intSliceToString(contests),
+		"filter":         filter,
+		"selectorResult": selectorResult,
+		"lang":           lang,
+	}
+	return q.api.get("lists/create", values)
+}
+
 // ParticipantsNotActivated returns the number of participants in the list which are not activated
 func (q *Lists) ParticipantsNotActivated(name string, contests []int, onlyWithUnderscores bool) (int, error) {
 	values := urlValues{
