@@ -170,6 +170,11 @@ func (q *EventAPI) Settings() *Settings {
 	return newSettings(q)
 }
 
+// SimpleAPI contains all api endpoints regarding SimpleAPI
+func (q *EventAPI) SimpleAPI() *SimpleAPI {
+	return newSimpleAPI(q)
+}
+
 // Splits contains all api endpoints regarding splits
 func (q *EventAPI) Splits() *Splits {
 	return newSplits(q)
