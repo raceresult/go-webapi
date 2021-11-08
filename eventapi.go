@@ -210,6 +210,11 @@ func (q *EventAPI) Vouchers() *Vouchers {
 	return newVouchers(q)
 }
 
+// WebHooks contains all api endpoints regarding web hooks
+func (q *EventAPI) WebHooks() *WebHooks {
+	return newWebHooks(q)
+}
+
 // TimingPointRules contains all api endpoints regarding timing point rules
 func (q *EventAPI) TimingPointRules() *TimingPointRules {
 	return newTimingPointRules(q)
