@@ -45,7 +45,7 @@ func (q *Public) Logout() error {
 	if q.sessionID == "" {
 		return errors.New("not logged in")
 	}
-	_, err := q.api.get("", "public/login", nil)
+	_, err := q.api.get("", "public/logout", nil)
 	return err
 }
 
