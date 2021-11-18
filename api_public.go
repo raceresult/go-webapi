@@ -177,3 +177,8 @@ func (q *Public) UserRightsDelete(eventID string, userID int) error {
 	_, err := q.api.get("", "userrights/delete", values)
 	return err
 }
+
+// SessionID returns the sessionID after a login
+func (q *Public) SessionID() string {
+	return q.sessionID
+}
