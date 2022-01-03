@@ -1,0 +1,28 @@
+/*
+	r.GET("/_:id/api/file/servertime", apiEvent.HandleWithEventConn(apiEvent.HandleFileServerTime))
+
+	q.httpHandlers["file/info"] = q.fileApi.Info
+
+	q.httpHandlers["information/getzip"] = q.information.GetZIP
+	q.httpHandlers["information/getcity"] = q.information.GetCity
+	q.httpHandlers["information/getcities"] = q.information.GetCities
+	q.httpHandlers["information/getbanks"] = q.information.GetBanks
+	q.httpHandlers["information/countries"] = q.information.Countries
+	r.GET("/api/information/countries", request.HandleAsRequest(apiGen.Countries))
+	r.GET("/api/information/country", request.HandleAsRequest(apiGen.Country))
+
+	q.httpHandlers["rawdata/get"] = q.rawData.Get
+    q.httpHandlers["rawdata/getintervals"] = q.rawData.GetIntervals
+
+    q.httpHandlers["statistics/conteststatistic"] = q.statistics.ContestStatistic
+	q.httpHandlers["statistics/resultstatistic"] = q.statistics.ResultStatistic
+	q.httpHandlers["statistics/resultsstatistic"] = q.statistics.ResultsStatistic
+	q.httpHandlers["statistics/entryfeestatistic"] = q.statistics.EntryFeeStatistic
+
+    // TODO: functions to load settings linked to contest/result
+
+	q.httpHandlers["table/get"] = q.table.Get
+	q.httpHandlers["table/save"] = q.table.Save
+
+	r.GET("/api/local/eventlist", request.HandleAsRequest(apiGen.LocalEventList))
+*/

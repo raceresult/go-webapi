@@ -84,6 +84,8 @@ func (q *API) post(eventID, cmd string, values urlValues, contentType string, da
 			reader = bytes.NewReader(d)
 		case string:
 			reader = strings.NewReader(d)
+		case io.Reader:
+			reader = d
 		default:
 			btsData, err := json.Marshal(data)
 			if err != nil {
