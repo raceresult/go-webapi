@@ -36,6 +36,23 @@ func (q *Participants) GetFields(bib int, fields []string) (variant.VariantMap, 
 	return dest, nil
 }
 
+// GetFieldsWithChanges presents the given changes would be applied the participant and then returns field values of this participant
+func (q *Participants) GetFieldsWithChanges(bib int, fields []string, changes variant.VariantMap) (variant.VariantMap, error) {
+	values := urlValues{
+		"bib":    bib,
+		"fields": fields,
+	}
+	bts, err := q.api.post("part/getfieldswithchanges", values, changes)
+	if err != nil {
+		return nil, err
+	}
+	var dest variant.VariantMap
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return dest, nil
+}
+
 // SaveExpression calculates the result of an expression and saves it in the given field.
 func (q *Participants) SaveExpression(bib int, field string, expression string, noHistory bool) error {
 	values := urlValues{
