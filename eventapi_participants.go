@@ -36,7 +36,7 @@ func (q *Participants) GetFields(bib int, fields []string) (variant.VariantMap, 
 	return dest, nil
 }
 
-// GetFieldsWithChanges presents the given changes would be applied the participant and then returns field values of this participant
+// GetFieldsWithChanges pretends the given changes would be applied the participant and then returns field values of this participant
 func (q *Participants) GetFieldsWithChanges(bib int, fields []string, changes variant.VariantMap) (variant.VariantMap, error) {
 	values := urlValues{
 		"bib":    bib,

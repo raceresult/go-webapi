@@ -158,10 +158,10 @@ func (q *Public) UserRightsGet(eventID string) ([]model.UserRight, error) {
 }
 
 // UserRightsSave saves users rights
-func (q *Public) UserRightsSave(eventID string, userID int, rights string) error {
+func (q *Public) UserRightsSave(eventID string, user string, rights string) error {
 	values := urlValues{
 		"eventID": eventID,
-		"userID":  userID,
+		"user":    user,
 		"rights":  rights,
 	}
 	_, err := q.api.get("", "userrights/save", values)
