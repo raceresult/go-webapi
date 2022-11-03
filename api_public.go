@@ -87,13 +87,13 @@ func (q *Public) CreateEvent(eventName string, eventDate time.Time, eventCountry
 	mode int, laps int) (*EventAPI, error) {
 
 	values := urlValues{
-		"eventName":    eventName,
-		"eventDate":    eventDate,
-		"eventCountry": eventCountry,
-		"copyOf":       copyOf,
-		"templateID":   templateID,
-		"mode":         mode,
-		"laps":         laps,
+		"name":       eventName,
+		"date":       eventDate,
+		"country":    eventCountry,
+		"copyOf":     copyOf,
+		"templateID": templateID,
+		"mode":       mode,
+		"laps":       laps,
 	}
 
 	resp, err := q.api.get("", "public/createevent", values)
