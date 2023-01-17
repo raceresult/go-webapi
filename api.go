@@ -19,6 +19,7 @@ type API struct {
 	public     *Public
 	timeout_ms int32
 	userAgent  string
+	errorGen   func(msg string, statusCode int) error
 }
 
 // NewAPI creates a new API object
@@ -59,6 +60,11 @@ func (q *API) SetTimeout(timeout time.Duration) {
 // GetTimeout returns the current request timeout
 func (q *API) GetTimeout() time.Duration {
 	return time.Duration(atomic.LoadInt32(&q.timeout_ms)) * time.Millisecond
+}
+
+// SetErrorGen sets a custom function used to create errors
+func (q *API) SetErrorGen(fn func(msg string, statusCode int) error) {
+	q.errorGen = fn
 }
 
 // SessionID returns the session ID
@@ -135,7 +141,10 @@ func (q *API) do(req *http.Request) ([]byte, error) {
 	if json.Unmarshal(bts, &e) == nil {
 		return bts, errors.New(e.Error)
 	}
-	return bts, errors.New(string(bts))
+	if q.errorGen != nil {
+		return nil, q.errorGen(string(bts), resp.StatusCode)
+	}
+	return nil, errors.New(string(bts))
 }
 
 // buildURL compiles the url for any request
