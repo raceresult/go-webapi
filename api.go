@@ -135,16 +135,19 @@ func (q *API) do(req *http.Request) ([]byte, error) {
 	}
 
 	// error happened
+	var errMsg string
 	var e struct {
 		Error string
 	}
 	if json.Unmarshal(bts, &e) == nil {
-		return bts, errors.New(e.Error)
+		errMsg = e.Error
+	} else {
+		errMsg = string(bts)
 	}
 	if q.errorGen != nil {
-		return nil, q.errorGen(string(bts), resp.StatusCode)
+		return nil, q.errorGen(errMsg, resp.StatusCode)
 	}
-	return nil, errors.New(string(bts))
+	return nil, errors.New(errMsg)
 }
 
 // buildURL compiles the url for any request
