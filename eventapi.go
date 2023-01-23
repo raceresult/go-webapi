@@ -105,6 +105,11 @@ func (q *EventAPI) Forwarding() *Forwarding {
 	return newForwarding(q)
 }
 
+// GroupTimes contains all api endpoints regarding group times
+func (q *EventAPI) GroupTimes() *GroupTimes {
+	return newGroupTimes(q)
+}
+
 // History contains all api endpoints regarding history entries
 func (q *EventAPI) History() *History {
 	return newHistory(q)
