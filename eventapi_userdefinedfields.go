@@ -31,3 +31,9 @@ func (q *UserDefinedFields) Get() ([]model.UserDefinedField, error) {
 	}
 	return dest, nil
 }
+
+// Set overwrites all user defined fields
+func (q *UserDefinedFields) Set(items []model.UserDefinedField) error {
+	_, err := q.api.post("userdefinedfields/set", nil, items)
+	return err
+}

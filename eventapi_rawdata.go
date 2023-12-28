@@ -20,21 +20,6 @@ func newRawData(api *EventAPI) *RawData {
 	}
 }
 
-/*
-// Get returns raw data entries
-func (q *RawData) Get(bib int) ([]model.RawData, error) {
-	bts, err := q.api.get("rawdata/get", nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var dest []model.RawData
-	if err := json.Unmarshal(bts, &dest); err != nil {
-		return nil, err
-	}
-	return dest, nil
-}*/
-
 // ExcelExport returns raw data entries matching the given filters as csv file
 func (q *RawData) ExcelExport(bib int, lang string) ([]byte, error) {
 	values := urlValues{
@@ -54,6 +39,18 @@ func (q *RawData) SetInvalid(id int, invalid bool) error {
 	return err
 }
 
+// SetInvalidBatch sets multiple raw data entries to valid or invalid
+func (q *RawData) SetInvalidBatch(filter string, rdFilter model.RawDataFilter, invalid bool) error {
+	btsRDFilter, _ := json.Marshal(rdFilter)
+	values := urlValues{
+		"filter":   filter,
+		"rdFilter": string(btsRDFilter),
+		"invalid":  invalid,
+	}
+	_, err := q.api.get("rawdata/setinvalidbatch", values)
+	return err
+}
+
 // DeleteID deletes the raw data entry with the given ID
 func (q *RawData) DeleteID(id int) error {
 	values := urlValues{
@@ -64,44 +61,74 @@ func (q *RawData) DeleteID(id int) error {
 }
 
 // Delete deletes the raw data entries matching the given filters
-func (q *RawData) Delete(timingPoint string, contest int, bib int, filter string,
-	minTime decimal.Decimal, maxtime decimal.Decimal, filterInfo string) error {
-
+func (q *RawData) Delete(bib int, filter string, rdFilter model.RawDataFilter) error {
+	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"timingPoint": timingPoint,
-		"contest":     contest,
-		"bib":         bib,
-		"filter":      filter,
-		"minTime":     minTime,
-		"maxtime":     maxtime,
-		"filterInfo":  filterInfo,
+		"bib":      bib,
+		"filter":   filter,
+		"rdFilter": string(btsRDFilter),
 	}
 	_, err := q.api.get("rawdata/delete", values)
 	return err
 }
 
-// SetInvalidBatch sets multiple raw data entries to valid or invalid
-func (q *RawData) SetInvalidBatch(invalid bool, timingPoint string, timeFrom, timeTo decimal.Decimal, filter string) error {
+// Get returns raw data entries
+func (q *RawData) Get(bib int, filter string, rdFilter model.RawDataFilter, addFields []string,
+	firstRow int, maxRows int, sortBy string) ([]model.RawDataWithAdditionalFields, error) {
+	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"invalid":     invalid,
-		"timingPoint": timingPoint,
-		"timeFrom":    timeFrom,
-		"timeTo":      timeTo,
-		"filter":      filter,
+		"bib":       bib,
+		"filter":    filter,
+		"rdFilter":  string(btsRDFilter),
+		"addFields": addFields,
+		"firstRow":  firstRow,
+		"maxRows":   maxRows,
+		"sortBy":    sortBy,
 	}
-	_, err := q.api.get("rawdata/setinvalidbatch", values)
-	return err
+	bts, err := q.api.get("rawdata/get", values)
+	if err != nil {
+		return nil, err
+	}
+
+	var dest []model.RawDataWithAdditionalFields
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return dest, nil
+}
+
+// Export returns raw data entries
+func (q *RawData) Export(bib int, filter string, rdFilter model.RawDataFilter, fields []string,
+	firstRow int, maxRows int, sortBy string) ([][]interface{}, error) {
+	btsRDFilter, _ := json.Marshal(rdFilter)
+	values := urlValues{
+		"bib":      bib,
+		"filter":   filter,
+		"rdFilter": string(btsRDFilter),
+		"fields":   fields,
+		"firstRow": firstRow,
+		"maxRows":  maxRows,
+		"sortBy":   sortBy,
+	}
+	bts, err := q.api.get("rawdata/export", values)
+	if err != nil {
+		return nil, err
+	}
+
+	var dest [][]interface{}
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return dest, nil
 }
 
 // Count counts raw data entries matching the given filters
-func (q *RawData) Count(timingPoint string, bib int, contest int, filter string, minTime, maxTime decimal.Decimal) (int, error) {
+func (q *RawData) Count(bib int, filter string, rdFilter model.RawDataFilter) (int, error) {
+	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"timingPoint": timingPoint,
-		"bib":         bib,
-		"contest":     contest,
-		"filter":      filter,
-		"minTime":     minTime,
-		"maxTime":     maxTime,
+		"bib":      bib,
+		"filter":   filter,
+		"rdFilter": string(btsRDFilter),
 	}
 	bts, err := q.api.get("rawdata/count", values)
 	if err != nil {
@@ -111,16 +138,6 @@ func (q *RawData) Count(timingPoint string, bib int, contest int, filter string,
 	var count int
 	err = json.Unmarshal(bts, &count)
 	return count, err
-}
-
-// Copy copies raw data from one participant to another
-func (q *RawData) Copy(bibFrom, bibTo int) error {
-	values := urlValues{
-		"bibFrom": bibFrom,
-		"bibTo":   bibTo,
-	}
-	_, err := q.api.get("rawdata/copy", values)
-	return err
 }
 
 // DistinctValues returns list of unique values existing in raw data
@@ -144,5 +161,25 @@ func (q *RawData) AddManual(timingPoint string, bib int, time decimal.Decimal, a
 		"addT0":       addT0,
 	}
 	_, err := q.api.get("rawdata/addmanual", values)
+	return err
+}
+
+// Copy copies raw data from one participant to another
+func (q *RawData) Copy(bibFrom, bibTo int) error {
+	values := urlValues{
+		"bibFrom": bibFrom,
+		"bibTo":   bibTo,
+	}
+	_, err := q.api.get("rawdata/copy", values)
+	return err
+}
+
+// Swap swaps raw data between two participant
+func (q *RawData) Swap(bib1, bib2 int) error {
+	values := urlValues{
+		"bib1": bib1,
+		"bib2": bib2,
+	}
+	_, err := q.api.get("rawdata/swap", values)
 	return err
 }

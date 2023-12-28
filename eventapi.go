@@ -165,6 +165,11 @@ func (q *EventAPI) RawDataRules() *RawDataRules {
 	return newRawDataRules(q)
 }
 
+// Registrations contains all api endpoints regarding registrations
+func (q *EventAPI) Registrations() *Registrations {
+	return newRegistrations(q)
+}
+
 // Results contains all api endpoints regarding results
 func (q *EventAPI) Results() *Results {
 	return newResults(q)
