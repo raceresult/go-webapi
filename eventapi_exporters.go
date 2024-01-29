@@ -18,12 +18,9 @@ func newExporters(api *EventAPI) *Exporters {
 	}
 }
 
-// Get returns exporters matching the given filters
-func (q *Exporters) Get(id int) ([]model.Exporter, error) {
-	values := urlValues{
-		"id": id,
-	}
-	bts, err := q.api.get("exporters/get", values)
+// Get returns all exporters
+func (q *Exporters) Get() ([]model.Exporter, error) {
+	bts, err := q.api.get("exporters/get", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -33,6 +30,23 @@ func (q *Exporters) Get(id int) ([]model.Exporter, error) {
 		return nil, err
 	}
 	return dest, nil
+}
+
+// GetOne returns the contest with the given ID
+func (q *Exporters) GetOne(id int) (*model.Exporter, error) {
+	values := urlValues{
+		"id": id,
+	}
+	bts, err := q.api.get("exporters/get", values)
+	if err != nil {
+		return nil, err
+	}
+
+	var dest model.Exporter
+	if err := json.Unmarshal(bts, &dest); err != nil {
+		return nil, err
+	}
+	return &dest, nil
 }
 
 // Delete deletes exporters
