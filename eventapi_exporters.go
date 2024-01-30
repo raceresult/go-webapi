@@ -2,6 +2,7 @@ package webapi
 
 import (
 	"encoding/json"
+	"errors"
 
 	model "github.com/raceresult/go-model"
 )
@@ -42,11 +43,14 @@ func (q *Exporters) GetOne(id int) (*model.Exporter, error) {
 		return nil, err
 	}
 
-	var dest model.Exporter
+	var dest []model.Exporter
 	if err := json.Unmarshal(bts, &dest); err != nil {
 		return nil, err
 	}
-	return &dest, nil
+	if len(dest) == 0 {
+		return nil, errors.New("exporter not found")
+	}
+	return &dest[0], nil
 }
 
 // Delete deletes exporters
