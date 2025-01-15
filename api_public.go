@@ -7,9 +7,7 @@ import (
 	"time"
 
 	model "github.com/raceresult/go-model"
-
 	"github.com/raceresult/go-model/vbdate"
-
 	"golang.org/x/oauth2"
 )
 
@@ -28,10 +26,9 @@ func newPublic(api *API) *Public {
 }
 
 // Login creates a new session
-func (q *Public) Login(user, pw string) error {
+func (q *Public) Login(apikey string) error {
 	values := url.Values{}
-	values.Set("user", user)
-	values.Set("pw", pw)
+	values.Set("apikey", apikey)
 	resp, err := q.api.post("", "public/login", nil, "application/x-www-form-urlencoded", values.Encode())
 	if err != nil {
 		return err

@@ -3,9 +3,8 @@ package webapi
 import (
 	"encoding/json"
 
-	"github.com/raceresult/go-model/variant"
-
 	"github.com/raceresult/go-model/statistic"
+	"github.com/raceresult/go-model/variant"
 )
 
 // Statistics contains all api endpoints regarding statistics

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	model "github.com/raceresult/go-model"
-
 	"github.com/raceresult/go-model/decimal"
 )
 
