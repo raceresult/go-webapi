@@ -25,10 +25,59 @@ func newPublic(api *API) *Public {
 	}
 }
 
+type Options struct {
+	User        string
+	PW          string
+	TOTP        string
+	ApiKey      string
+	RRUserToken string
+}
+
+type Option func(*Options)
+
+func WithCredentials(user, pw string) Option {
+	return func(o *Options) {
+		o.User = user
+		o.PW = pw
+	}
+}
+func WithTOTP(totp string) Option {
+	return func(o *Options) {
+		o.TOTP = totp
+	}
+}
+func WithAPIKey(apiKey string) Option {
+	return func(o *Options) {
+		o.ApiKey = apiKey
+	}
+}
+func WithRRUserToken(rrUserToken string) Option {
+	return func(o *Options) {
+		o.RRUserToken = rrUserToken
+	}
+}
+
 // Login creates a new session
-func (q *Public) Login(apikey string) error {
+func (q *Public) Login(opts ...Option) error {
+	options := &Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	values := url.Values{}
-	values.Set("apikey", apikey)
+	if options.ApiKey != "" {
+		values.Set("apikey", options.ApiKey)
+	}
+	if options.User != "" {
+		values.Set("user", options.User)
+		values.Set("pw", options.PW)
+	}
+	if options.TOTP != "" {
+		values.Set("totp", options.TOTP)
+	}
+	if options.RRUserToken != "" {
+		values.Set("rruser_token", options.RRUserToken)
+	}
 	resp, err := q.api.post("", "public/login", nil, "application/x-www-form-urlencoded", values.Encode())
 	if err != nil {
 		return err
