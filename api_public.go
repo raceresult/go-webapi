@@ -28,6 +28,7 @@ func newPublic(api *API) *Public {
 type Options struct {
 	User        string
 	PW          string
+	SignInAs    string
 	TOTP        string
 	ApiKey      string
 	RRUserToken string
@@ -39,6 +40,11 @@ func WithCredentials(user, pw string) Option {
 	return func(o *Options) {
 		o.User = user
 		o.PW = pw
+	}
+}
+func WithSignInAs(signInAs string) Option {
+	return func(o *Options) {
+		o.SignInAs = signInAs
 	}
 }
 func WithTOTP(totp string) Option {
@@ -71,6 +77,9 @@ func (q *Public) Login(opts ...Option) error {
 	if options.User != "" {
 		values.Set("user", options.User)
 		values.Set("pw", options.PW)
+	}
+	if options.SignInAs != "" {
+		values.Set("signinas", options.SignInAs)
 	}
 	if options.TOTP != "" {
 		values.Set("totp", options.TOTP)
