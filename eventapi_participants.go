@@ -20,10 +20,10 @@ func newParticipants(api *EventAPI) *Participants {
 }
 
 // GetFields returns fields of one participant
-func (q *Participants) GetFields(bib int, fields []string) (variant.VariantMap, error) {
+func (q *Participants) GetFields(identifier Identifier, fields []string) (variant.VariantMap, error) {
 	values := urlValues{
-		"bib":    bib,
-		"fields": fields,
+		identifier.Name: identifier.Value,
+		"fields":        fields,
 	}
 	bts, err := q.api.get("part/getfields", values)
 	if err != nil {
@@ -37,10 +37,10 @@ func (q *Participants) GetFields(bib int, fields []string) (variant.VariantMap, 
 }
 
 // GetFieldsWithChanges pretends the given changes would be applied the participant and then returns field values of this participant
-func (q *Participants) GetFieldsWithChanges(bib int, fields []string, changes variant.VariantMap) (variant.VariantMap, error) {
+func (q *Participants) GetFieldsWithChanges(identifier Identifier, fields []string, changes variant.VariantMap) (variant.VariantMap, error) {
 	values := urlValues{
-		"bib":    bib,
-		"fields": fields,
+		identifier.Name: identifier.Value,
+		"fields":        fields,
 	}
 	bts, err := q.api.post("part/getfieldswithchanges", values, changes)
 	if err != nil {
@@ -54,12 +54,12 @@ func (q *Participants) GetFieldsWithChanges(bib int, fields []string, changes va
 }
 
 // SaveExpression calculates the result of an expression and saves it in the given field.
-func (q *Participants) SaveExpression(bib int, field string, expression string, noHistory bool) error {
+func (q *Participants) SaveExpression(identifier Identifier, field string, expression string, noHistory bool) error {
 	values := urlValues{
-		"bib":        bib,
-		"field":      field,
-		"expression": expression,
-		"noHistory":  noHistory,
+		identifier.Name: identifier.Value,
+		"field":         field,
+		"expression":    expression,
+		"noHistory":     noHistory,
 	}
 	_, err := q.api.get("part/saveexpression", values)
 	return err
@@ -75,10 +75,10 @@ func (q *Participants) SaveValueArray(values []model.SaveValueArrayItem, noHisto
 }
 
 // SaveFields saves multiple fields for one participant
-func (q *Participants) SaveFields(bib int, values variant.VariantMap, noHistory bool) error {
+func (q *Participants) SaveFields(identifier Identifier, values variant.VariantMap, noHistory bool) error {
 	uvalues := urlValues{
-		"bib":       bib,
-		"noHistory": noHistory,
+		identifier.Name: identifier.Value,
+		"noHistory":     noHistory,
 	}
 	_, err := q.api.post("part/savefields", uvalues, values)
 	return err
@@ -94,19 +94,11 @@ func (q *Participants) Save(values []variant.VariantMap, noHistory bool) error {
 }
 
 // Delete deletes participants.
-func (q *Participants) Delete(filter string, bib int, contest int) error {
+func (q *Participants) Delete(filter string, identifier Identifier, contest int) error {
 	values := urlValues{
-		"filter": filter,
-	}
-	if bib == 0 {
-		values["bib"] = "ALL"
-	} else {
-		values["bib"] = bib
-	}
-	if contest == 0 {
-		values["contest"] = "ALL"
-	} else {
-		values["contest"] = contest
+		"filter":        filter,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
 	}
 	_, err := q.api.get("part/delete", values)
 	return err
@@ -192,11 +184,11 @@ func (q *Participants) DataManipulation(values map[string]string, filter string,
 }
 
 // ClearBankInformation removes all banking information for the participants matching the given filters
-func (q *Participants) ClearBankInformation(bib int, contest int, filter string) error {
+func (q *Participants) ClearBankInformation(identifier Identifier, contest int, filter string) error {
 	values := urlValues{
-		"bib":     bib,
-		"contest": contest,
-		"filter":  filter,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
+		"filter":        filter,
 	}
 	_, err := q.api.get("part/clearbankinformation", values)
 	return err

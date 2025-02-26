@@ -20,10 +20,10 @@ func newRawData(api *EventAPI) *RawData {
 }
 
 // ExcelExport returns raw data entries matching the given filters as csv file
-func (q *RawData) ExcelExport(bib int, lang string) ([]byte, error) {
+func (q *RawData) ExcelExport(identifier Identifier, lang string) ([]byte, error) {
 	values := urlValues{
-		"bib":  bib,
-		"lang": lang,
+		identifier.Name: identifier.Value,
+		"lang":          lang,
 	}
 	return q.api.get("rawdata/excelexport", values)
 }
@@ -60,29 +60,29 @@ func (q *RawData) DeleteID(id int) error {
 }
 
 // Delete deletes the raw data entries matching the given filters
-func (q *RawData) Delete(bib int, filter string, rdFilter model.RawDataFilter) error {
+func (q *RawData) Delete(identifier Identifier, filter string, rdFilter model.RawDataFilter) error {
 	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"bib":      bib,
-		"filter":   filter,
-		"rdFilter": string(btsRDFilter),
+		identifier.Name: identifier.Value,
+		"filter":        filter,
+		"rdFilter":      string(btsRDFilter),
 	}
 	_, err := q.api.get("rawdata/delete", values)
 	return err
 }
 
 // Get returns raw data entries
-func (q *RawData) Get(bib int, filter string, rdFilter model.RawDataFilter, addFields []string,
+func (q *RawData) Get(identifier Identifier, filter string, rdFilter model.RawDataFilter, addFields []string,
 	firstRow int, maxRows int, sortBy string) ([]model.RawDataWithAdditionalFields, error) {
 	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"bib":       bib,
-		"filter":    filter,
-		"rdFilter":  string(btsRDFilter),
-		"addFields": addFields,
-		"firstRow":  firstRow,
-		"maxRows":   maxRows,
-		"sortBy":    sortBy,
+		identifier.Name: identifier.Value,
+		"filter":        filter,
+		"rdFilter":      string(btsRDFilter),
+		"addFields":     addFields,
+		"firstRow":      firstRow,
+		"maxRows":       maxRows,
+		"sortBy":        sortBy,
 	}
 	bts, err := q.api.get("rawdata/get", values)
 	if err != nil {
@@ -97,17 +97,17 @@ func (q *RawData) Get(bib int, filter string, rdFilter model.RawDataFilter, addF
 }
 
 // Export returns raw data entries
-func (q *RawData) Export(bib int, filter string, rdFilter model.RawDataFilter, fields []string,
+func (q *RawData) Export(identifier Identifier, filter string, rdFilter model.RawDataFilter, fields []string,
 	firstRow int, maxRows int, sortBy string) ([][]interface{}, error) {
 	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"bib":      bib,
-		"filter":   filter,
-		"rdFilter": string(btsRDFilter),
-		"fields":   fields,
-		"firstRow": firstRow,
-		"maxRows":  maxRows,
-		"sortBy":   sortBy,
+		identifier.Name: identifier.Value,
+		"filter":        filter,
+		"rdFilter":      string(btsRDFilter),
+		"fields":        fields,
+		"firstRow":      firstRow,
+		"maxRows":       maxRows,
+		"sortBy":        sortBy,
 	}
 	bts, err := q.api.get("rawdata/export", values)
 	if err != nil {
@@ -122,12 +122,12 @@ func (q *RawData) Export(bib int, filter string, rdFilter model.RawDataFilter, f
 }
 
 // Count counts raw data entries matching the given filters
-func (q *RawData) Count(bib int, filter string, rdFilter model.RawDataFilter) (int, error) {
+func (q *RawData) Count(identifier Identifier, filter string, rdFilter model.RawDataFilter) (int, error) {
 	btsRDFilter, _ := json.Marshal(rdFilter)
 	values := urlValues{
-		"bib":      bib,
-		"filter":   filter,
-		"rdFilter": string(btsRDFilter),
+		identifier.Name: identifier.Value,
+		"filter":        filter,
+		"rdFilter":      string(btsRDFilter),
 	}
 	bts, err := q.api.get("rawdata/count", values)
 	if err != nil {
@@ -152,32 +152,32 @@ func (q *RawData) DistinctValues() (*model.RawDataDistinctValues, error) {
 }
 
 // AddManual adds a raw data entry
-func (q *RawData) AddManual(timingPoint string, bib int, time decimal.Decimal, addT0 bool) error {
+func (q *RawData) AddManual(timingPoint string, identifier Identifier, time decimal.Decimal, addT0 bool) error {
 	values := urlValues{
-		"timingPoint": timingPoint,
-		"bib":         bib,
-		"time":        time,
-		"addT0":       addT0,
+		"timingPoint":   timingPoint,
+		identifier.Name: identifier.Value,
+		"time":          time,
+		"addT0":         addT0,
 	}
 	_, err := q.api.get("rawdata/addmanual", values)
 	return err
 }
 
 // Copy copies raw data from one participant to another
-func (q *RawData) Copy(bibFrom, bibTo int) error {
+func (q *RawData) Copy(from, to Identifier) error {
 	values := urlValues{
-		"bibFrom": bibFrom,
-		"bibTo":   bibTo,
+		from.Name + "From": from.Value,
+		from.Name + "To":   to.Value,
 	}
 	_, err := q.api.get("rawdata/copy", values)
 	return err
 }
 
 // Swap swaps raw data between two participant
-func (q *RawData) Swap(bib1, bib2 int) error {
+func (q *RawData) Swap(identifier1, identifier2 Identifier) error {
 	values := urlValues{
-		"bib1": bib1,
-		"bib2": bib2,
+		identifier1.Name + "1": identifier1.Value,
+		identifier2.Name + "2": identifier2.Value,
 	}
 	_, err := q.api.get("rawdata/swap", values)
 	return err

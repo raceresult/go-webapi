@@ -21,7 +21,7 @@ func demo() error {
 	api := webapi.NewAPI("events.raceresult.com", true, "")
 
 	// login
-	err := api.Public().Login("user", "your_password")
+	err := api.Public().Login(webapi.WithAPIKey("your_api_key"))
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func demo() error {
 		"DateOfBirth": variant.RString("1975-01-01"),
 		"Contest":     variant.RInt(cid),
 	}
-	if err := ea.Participants().SaveFields(12000, values, false); err != nil {
+	if err := ea.Participants().SaveFields(webapi.Bib(12000), values, false); err != nil {
 		return err
 	}
 
@@ -114,7 +114,7 @@ func demo() error {
 	// ---------------------------------------------------------------------------------------------
 
 	// delete participants again
-	if err := ea.Participants().Delete("[Bib]>=12000", 0, 0); err != nil {
+	if err := ea.Participants().Delete("[Bib]>=12000", webapi.Bib(0), 0); err != nil {
 		return err
 	}
 

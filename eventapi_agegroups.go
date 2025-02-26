@@ -88,12 +88,12 @@ func (q *AgeGroups) Generate(mode string, contest int, set int, ageBase bool, da
 }
 
 // Reassign reassigns age groups
-func (q *AgeGroups) Reassign(contest int, bib int, set int, addOnly bool) error {
+func (q *AgeGroups) Reassign(contest int, identifier Identifier, set int, addOnly bool) error {
 	values := urlValues{
-		"contest": contest,
-		"bib":     bib,
-		"set":     set,
-		"addOnly": addOnly,
+		"contest":       contest,
+		identifier.Name: identifier.Value,
+		"set":           set,
+		"addOnly":       addOnly,
 	}
 	_, err := q.api.get("agegroups/reassign", values)
 	return err

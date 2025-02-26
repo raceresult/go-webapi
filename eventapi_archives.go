@@ -69,9 +69,9 @@ func (q *Archives) GetEntry(id int, regNo string) (*archives.Participant, error)
 }
 
 // GetParticipations returns the participations for the given bib
-func (q *Archives) GetParticipations(bib int) ([]archives.ParticipationExt, error) {
+func (q *Archives) GetParticipations(identifier Identifier) ([]archives.ParticipationExt, error) {
 	values := urlValues{
-		"bib": bib,
+		identifier.Name: identifier.Value,
 	}
 	bts, err := q.api.get("archives/getparticipations", values)
 	if err != nil {

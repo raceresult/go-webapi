@@ -20,33 +20,33 @@ func newTimes(api *EventAPI) *Times {
 }
 
 // ExcelExport returns times matching the given filters as csv file
-func (q *Times) ExcelExport(bib int, result int, lang string) ([]byte, error) {
+func (q *Times) ExcelExport(identifier Identifier, result int, lang string) ([]byte, error) {
 	values := urlValues{
-		"bib":    bib,
-		"result": result,
-		"lang":   lang,
+		identifier.Name: identifier.Value,
+		"result":        result,
+		"lang":          lang,
 	}
 	return q.api.get("times/excelexport", values)
 }
 
 // Delete deletes times matching the given filters
-func (q *Times) Delete(bib, contest, result int, filter string, filterInfo string) error {
+func (q *Times) Delete(identifier Identifier, contest, result int, filter string, filterInfo string) error {
 	values := urlValues{
-		"bib":        bib,
-		"contest":    contest,
-		"result":     result,
-		"filter":     filter,
-		"filterInfo": filterInfo,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
+		"result":        result,
+		"filter":        filter,
+		"filterInfo":    filterInfo,
 	}
 	_, err := q.api.get("times/delete", values)
 	return err
 }
 
 // Swap swaps the times of two participants
-func (q *Times) Swap(bib1, bib2 int) error {
+func (q *Times) Swap(identifier1, identifier2 Identifier) error {
 	values := urlValues{
-		"bib1": bib1,
-		"bib2": bib2,
+		identifier1.Name + "1": identifier1.Value,
+		identifier2.Name + "2": identifier2.Value,
 	}
 	_, err := q.api.get("times/swap", values)
 	return err
@@ -87,10 +87,10 @@ func (q *Times) RandomTimes(result int, contest int, minTime decimal.Decimal, ma
 }
 
 // Copy copies times from one participant to another
-func (q *Times) Copy(bibFrom, bibTo int, overwriteExisting bool) error {
+func (q *Times) Copy(from, to Identifier, overwriteExisting bool) error {
 	values := urlValues{
-		"bibFrom":           bibFrom,
-		"bibTo":             bibTo,
+		from.Name + "From":  from.Value,
+		from.Name + "To":    to.Value,
 		"overwriteExisting": overwriteExisting,
 	}
 	_, err := q.api.get("times/copy", values)
@@ -110,10 +110,10 @@ func (q *Times) Interpolate(destID, helperID int, contest int, helpers int) erro
 }
 
 // Get returns times matching the given filters
-func (q *Times) Get(bib int, result int) ([]model.Time, error) {
+func (q *Times) Get(identifier Identifier, result int) ([]model.Time, error) {
 	values := urlValues{
-		"bib":    bib,
-		"result": result,
+		identifier.Name: identifier.Value,
+		"result":        result,
 	}
 	bts, err := q.api.get("times/get", values)
 	if err != nil {
@@ -128,12 +128,12 @@ func (q *Times) Get(bib int, result int) ([]model.Time, error) {
 }
 
 // Count counts times matching the given filters
-func (q *Times) Count(bib int, contest int, result int, filter string) (int, error) {
+func (q *Times) Count(identifier Identifier, contest int, result int, filter string) (int, error) {
 	values := urlValues{
-		"bib":     bib,
-		"contest": contest,
-		"result":  result,
-		"filter":  filter,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
+		"result":        result,
+		"filter":        filter,
 	}
 	bts, err := q.api.get("times/count", values)
 	if err != nil {

@@ -20,9 +20,9 @@ func newHistory(api *EventAPI) *History {
 }
 
 // Get returns history entries matching the given filters
-func (q *History) Get(bib int) ([]model.History, error) {
+func (q *History) Get(identifier Identifier) ([]model.History, error) {
 	values := urlValues{
-		"bib": bib,
+		identifier.Name: identifier.Value,
 	}
 	bts, err := q.api.get("history/get", values)
 	if err != nil {
@@ -37,37 +37,37 @@ func (q *History) Get(bib int) ([]model.History, error) {
 }
 
 // ExcelExport returns history entries matching the given filters as csv file
-func (q *History) ExcelExport(bib int, lang string) ([]byte, error) {
+func (q *History) ExcelExport(identifier Identifier, lang string) ([]byte, error) {
 	values := urlValues{
-		"bib":  bib,
-		"lang": lang,
+		identifier.Name: identifier.Value,
+		"lang":          lang,
 	}
 	return q.api.get("history/excelexport", values)
 }
 
 // Delete deletes history entries matching the given filters
-func (q *History) Delete(bib int, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) error {
+func (q *History) Delete(identifier Identifier, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) error {
 	values := urlValues{
-		"bib":      bib,
-		"contest":  contest,
-		"field":    field,
-		"dateForm": dateForm,
-		"dateTo":   dateTo,
-		"filter":   filter,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
+		"field":         field,
+		"dateForm":      dateForm,
+		"dateTo":        dateTo,
+		"filter":        filter,
 	}
 	_, err := q.api.get("history/delete", values)
 	return err
 }
 
 // Count counts history entries matching the given filters
-func (q *History) Count(bib int, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) (int, error) {
+func (q *History) Count(identifier Identifier, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) (int, error) {
 	values := urlValues{
-		"bib":      bib,
-		"contest":  contest,
-		"field":    field,
-		"dateForm": dateForm,
-		"dateTo":   dateTo,
-		"filter":   filter,
+		identifier.Name: identifier.Value,
+		"contest":       contest,
+		"field":         field,
+		"dateForm":      dateForm,
+		"dateTo":        dateTo,
+		"filter":        filter,
 	}
 	bts, err := q.api.get("history/count", values)
 	if err != nil {
