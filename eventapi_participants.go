@@ -105,21 +105,22 @@ func (q *Participants) Delete(filter string, identifier Identifier, contest int)
 }
 
 // New create new participant and returns the bib
-func (q *Participants) New(bib int, contest int, firstfree bool) (int, error) {
+func (q *Participants) New(bib int, contest int, firstfree bool) (*model.ParticipantNewResponse, error) {
 	values := urlValues{
 		"bib":       bib,
 		"contest":   contest,
 		"firstfree": firstfree,
+		"v2":        true,
 	}
 	bts, err := q.api.get("part/new", values)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
-	var dest int
+	var dest model.ParticipantNewResponse
 	if err := json.Unmarshal(bts, &dest); err != nil {
-		return 0, err
+		return nil, err
 	}
-	return dest, nil
+	return &dest, nil
 }
 
 // EntryFee all entry fees charged to the participants with the given bibs
