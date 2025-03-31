@@ -2,9 +2,9 @@ package webapi
 
 import (
 	"encoding/json"
+	"time"
 
 	model "github.com/raceresult/go-model"
-	"github.com/raceresult/go-model/vbdate"
 )
 
 // History contains all api endpoints regarding history entries
@@ -20,7 +20,7 @@ func newHistory(api *EventAPI) *History {
 }
 
 // Get returns history entries matching the given filters
-func (q *History) Get(identifier Identifier) ([]model.History, error) {
+func (q *History) Get(identifier Identifier) ([]model.HistoryEntry, error) {
 	values := urlValues{
 		identifier.Name: identifier.Value,
 	}
@@ -29,7 +29,7 @@ func (q *History) Get(identifier Identifier) ([]model.History, error) {
 		return nil, err
 	}
 
-	var dest []model.History
+	var dest []model.HistoryEntry
 	if err := json.Unmarshal(bts, &dest); err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (q *History) ExcelExport(identifier Identifier, lang string) ([]byte, error
 }
 
 // Delete deletes history entries matching the given filters
-func (q *History) Delete(identifier Identifier, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) error {
+func (q *History) Delete(identifier Identifier, contest int, field string, dateForm, dateTo time.Time, filter string) error {
 	values := urlValues{
 		identifier.Name: identifier.Value,
 		"contest":       contest,
@@ -60,7 +60,7 @@ func (q *History) Delete(identifier Identifier, contest int, field string, dateF
 }
 
 // Count counts history entries matching the given filters
-func (q *History) Count(identifier Identifier, contest int, field string, dateForm, dateTo vbdate.VBDate, filter string) (int, error) {
+func (q *History) Count(identifier Identifier, contest int, field string, dateForm, dateTo time.Time, filter string) (int, error) {
 	values := urlValues{
 		identifier.Name: identifier.Value,
 		"contest":       contest,

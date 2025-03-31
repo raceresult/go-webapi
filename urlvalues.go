@@ -2,12 +2,11 @@ package webapi
 
 import (
 	"encoding/json"
+	"github.com/raceresult/go-model/datetime"
+	"github.com/raceresult/go-model/decimal"
 	"net/url"
 	"strconv"
 	"time"
-
-	"github.com/raceresult/go-model/decimal"
-	"github.com/raceresult/go-model/vbdate"
 )
 
 // urlValue helps to convert different types to url parameters
@@ -26,7 +25,7 @@ func (q urlValues) URLEncode() string {
 			return strconv.Itoa(t)
 
 		case time.Time:
-			return t.Format("2006-01-02 15:04:05")
+			return t.Format(time.RFC3339)
 
 		case bool:
 			if t {
@@ -37,7 +36,7 @@ func (q urlValues) URLEncode() string {
 		case decimal.Decimal:
 			return t.ToString()
 
-		case vbdate.VBDate:
+		case datetime.DateTime:
 			return t.ToString()
 
 		case []string:

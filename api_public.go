@@ -3,12 +3,11 @@ package webapi
 import (
 	"encoding/json"
 	"errors"
+	model "github.com/raceresult/go-model"
+	"github.com/raceresult/go-model/datetime"
+	"golang.org/x/oauth2"
 	"net/url"
 	"time"
-
-	model "github.com/raceresult/go-model"
-	"github.com/raceresult/go-model/vbdate"
-	"golang.org/x/oauth2"
 )
 
 // Public contains all api endpoints regarding functions on public servers
@@ -112,8 +111,8 @@ type EventListItem struct {
 	Participants  int
 	NotActivated  int
 	EventName     string
-	EventDate     vbdate.VBDate
-	EventDate2    vbdate.VBDate
+	EventDate     datetime.DateTime
+	EventDate2    datetime.DateTime
 	EventLocation string
 	EventCountry  int
 }

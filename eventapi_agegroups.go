@@ -2,9 +2,8 @@ package webapi
 
 import (
 	"encoding/json"
-
 	model "github.com/raceresult/go-model"
-	"github.com/raceresult/go-model/vbdate"
+	"github.com/raceresult/go-model/datetime"
 )
 
 // AgeGroups contains all api endpoints regarding age groups
@@ -64,7 +63,7 @@ func (q *AgeGroups) Save(items []model.AgeGroup) ([]int, error) {
 }
 
 // Generate generates new age groups from templates
-func (q *AgeGroups) Generate(mode string, contest int, set int, ageBase bool, date vbdate.VBDate, lang string) (
+func (q *AgeGroups) Generate(mode string, contest int, set int, ageBase bool, date datetime.DateTime, lang string) (
 	[]model.AgeGroup, error) {
 
 	values := urlValues{
