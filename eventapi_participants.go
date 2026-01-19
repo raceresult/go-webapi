@@ -147,7 +147,7 @@ func (q *Participants) CreateBlanks(from, to int, contest int, skipExcluded bool
 		"contest":      contest,
 		"skipExcluded": skipExcluded,
 	}
-	_, err := q.api.get("part/clearbankinformation", values)
+	_, err := q.api.get("part/createblanks", values)
 	return err
 }
 
