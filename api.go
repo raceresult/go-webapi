@@ -8,18 +8,17 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"sync/atomic"
 	"time"
 )
 
 // API is the main object of the web api
 type API struct {
-	server     string
-	secure     bool
-	public     *Public
-	timeout_ms int32
-	userAgent  string
-	errorGen   func(msg string, statusCode int) error
+	server    string
+	secure    bool
+	public    *Public
+	userAgent string
+	errorGen  func(msg string, statusCode int) error
+	http      http.Client
 }
 
 // NewAPI creates a new API object
@@ -28,10 +27,18 @@ func NewAPI(server string, https bool, userAgent string) *API {
 		userAgent = "webapi/1.0"
 	}
 	q := &API{
-		server:     server,
-		secure:     https,
-		timeout_ms: 30000,
-		userAgent:  userAgent,
+		server:    server,
+		secure:    https,
+		userAgent: userAgent,
+		http: http.Client{
+			Transport: &http.Transport{
+				MaxIdleConns:          3,
+				IdleConnTimeout:       15 * time.Second,
+				ResponseHeaderTimeout: 60 * time.Second,
+				DisableKeepAlives:     false,
+			},
+			Timeout: 30 * time.Second,
+		},
 	}
 	q.public = newPublic(q)
 	return q
@@ -54,12 +61,12 @@ func (q *API) General() *General {
 
 // SetTimeout sets the timeout for all following requests. Default is 30 seconds.
 func (q *API) SetTimeout(timeout time.Duration) {
-	atomic.StoreInt32(&q.timeout_ms, int32(timeout.Milliseconds()))
+	q.http.Timeout = timeout
 }
 
 // GetTimeout returns the current request timeout
 func (q *API) GetTimeout() time.Duration {
-	return time.Duration(atomic.LoadInt32(&q.timeout_ms)) * time.Millisecond
+	return q.http.Timeout
 }
 
 // SetErrorGen sets a custom function used to create errors
@@ -115,12 +122,9 @@ func (q *API) post(eventID, cmd string, values urlValues, contentType string, da
 // do executes a http request
 func (q *API) do(req *http.Request) ([]byte, error) {
 	// make request
-	client := http.Client{
-		Timeout: q.GetTimeout(),
-	}
 	req.Header.Set("Authorization", "Bearer "+q.public.sessionID)
 	req.Header.Set("User-Agent", q.userAgent)
-	resp, err := client.Do(req)
+	resp, err := q.http.Do(req)
 	if err != nil {
 		return nil, err
 	}
