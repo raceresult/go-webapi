@@ -124,7 +124,7 @@ func (q *Participants) New(bib int, contest int, firstfree bool) (*model.Partici
 }
 
 // EntryFee all entry fees charged to the participants with the given bibs
-func (q *Participants) EntryFee(bibs []int) ([]model.EntryFeeItem, error) {
+func (q *Participants) EntryFee(bibs []int) (map[string][]model.EntryFeeItem, error) {
 	values := urlValues{
 		"bibs": intSliceToString(bibs),
 	}
@@ -132,7 +132,7 @@ func (q *Participants) EntryFee(bibs []int) ([]model.EntryFeeItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	var dest []model.EntryFeeItem
+	var dest map[string][]model.EntryFeeItem
 	if err := json.Unmarshal(bts, &dest); err != nil {
 		return nil, err
 	}
