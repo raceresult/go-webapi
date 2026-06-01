@@ -79,6 +79,11 @@ func (q *API) SessionID() string {
 	return q.public.sessionID
 }
 
+// SetSessionID sets the session ID
+func (q *API) SetSessionID(sessID string) {
+	q.public.sessionID = sessID
+}
+
 // get makes a GET request on the server
 func (q *API) get(eventID, cmd string, values urlValues) ([]byte, error) {
 	req, err := http.NewRequest("GET", q.buildURL(eventID, cmd, values), nil)
