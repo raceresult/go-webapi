@@ -19,11 +19,8 @@ func newLabels(api *EventAPI) *Labels {
 }
 
 // Names returns the names of all labels
-func (q *Labels) Names(customSorted bool) ([]string, error) {
-	values := urlValues{
-		"customSorted": customSorted,
-	}
-	bts, err := q.api.get("labels/names", values)
+func (q *Labels) Names() ([]string, error) {
+	bts, err := q.api.get("labels/names", nil)
 	if err != nil {
 		return nil, err
 	}

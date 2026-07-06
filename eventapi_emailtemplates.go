@@ -20,11 +20,8 @@ func newEmailTemplates(api *EventAPI) *EmailTemplates {
 }
 
 // Names returns the names of all email templates
-func (q *EmailTemplates) Names(customSorted bool) ([]string, error) {
-	values := urlValues{
-		"customSorted": customSorted,
-	}
-	bts, err := q.api.get("emailtemplates/names", values)
+func (q *EmailTemplates) Names() ([]string, error) {
+	bts, err := q.api.get("emailtemplates/names", nil)
 	if err != nil {
 		return nil, err
 	}

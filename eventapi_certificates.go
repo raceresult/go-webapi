@@ -19,11 +19,8 @@ func newCertificates(api *EventAPI) *Certificates {
 }
 
 // Names returns the names of all certificates
-func (q *Certificates) Names(customSorted bool) ([]string, error) {
-	values := urlValues{
-		"customSorted": customSorted,
-	}
-	bts, err := q.api.get("certificates/names", values)
+func (q *Certificates) Names() ([]string, error) {
+	bts, err := q.api.get("certificates/names", nil)
 	if err != nil {
 		return nil, err
 	}

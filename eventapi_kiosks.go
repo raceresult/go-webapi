@@ -19,11 +19,8 @@ func newKiosks(api *EventAPI) *Kiosks {
 }
 
 // Names returns the names of all kiosks
-func (q *Kiosks) Names(customSorted bool) ([]string, error) {
-	values := urlValues{
-		"customSorted": customSorted,
-	}
-	bts, err := q.api.get("kiosks/names", values)
+func (q *Kiosks) Names() ([]string, error) {
+	bts, err := q.api.get("kiosks/names", nil)
 	if err != nil {
 		return nil, err
 	}
