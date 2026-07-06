@@ -20,8 +20,11 @@ func newStatistics(api *EventAPI) *Statistics {
 }
 
 // Names returns the names of all statistics
-func (q *Statistics) Names() ([]string, error) {
-	bts, err := q.api.get("statistics/names", nil)
+func (q *Statistics) Names(customSorted bool) ([]string, error) {
+	values := urlValues{
+		"customSorted": customSorted,
+	}
+	bts, err := q.api.get("statistics/names", values)
 	if err != nil {
 		return nil, err
 	}

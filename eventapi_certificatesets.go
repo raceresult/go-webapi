@@ -19,8 +19,11 @@ func newCertificateSets(api *EventAPI) *CertificateSets {
 }
 
 // Names returns the names of all certificate sets
-func (q *CertificateSets) Names() ([]string, error) {
-	bts, err := q.api.get("certificatesets/names", nil)
+func (q *CertificateSets) Names(customSorted bool) ([]string, error) {
+	values := urlValues{
+		"customSorted": customSorted,
+	}
+	bts, err := q.api.get("certificatesets/names", values)
 	if err != nil {
 		return nil, err
 	}

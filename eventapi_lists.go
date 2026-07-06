@@ -19,8 +19,11 @@ func newLists(api *EventAPI) *Lists {
 }
 
 // Names returns the names of all lists
-func (q *Lists) Names() ([]string, error) {
-	bts, err := q.api.get("lists/names", nil)
+func (q *Lists) Names(customSorted bool) ([]string, error) {
+	values := urlValues{
+		"customSorted": customSorted,
+	}
+	bts, err := q.api.get("lists/names", values)
 	if err != nil {
 		return nil, err
 	}
