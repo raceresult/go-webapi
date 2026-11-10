@@ -43,7 +43,7 @@ func demo() error {
 	if false {
 		// create new event
 		date := time.Date(2021, 10, 27, 0, 0, 0, 0, time.Local)
-		e, err := api.Public().CreateEvent("new event", date, 840, 0, 0, 0, 0)
+		e, err := api.Public().CreateEvent("new event", date, 840, 0, 0, 0, 0, 0)
 		if err != nil {
 			return err
 		}

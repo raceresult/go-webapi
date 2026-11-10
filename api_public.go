@@ -3,11 +3,12 @@ package webapi
 import (
 	"encoding/json"
 	"errors"
+	"net/url"
+	"time"
+
 	model "github.com/raceresult/go-model"
 	"github.com/raceresult/go-model/datetime"
 	"golang.org/x/oauth2"
-	"net/url"
-	"time"
 )
 
 // Public contains all api endpoints regarding functions on public servers
@@ -137,7 +138,7 @@ func (q *Public) EventList(year int, filter string) ([]EventListItem, error) {
 }
 
 // CreateEvent creates a new event (online server only) and returns the new eventID
-func (q *Public) CreateEvent(eventName string, eventDate time.Time, eventCountry int, copyOf int, templateID int,
+func (q *Public) CreateEvent(eventName string, eventDate time.Time, eventCountry int, copyOf int, copyMode int, templateID int,
 	mode int, laps int) (*EventAPI, error) {
 
 	values := urlValues{
@@ -145,6 +146,7 @@ func (q *Public) CreateEvent(eventName string, eventDate time.Time, eventCountry
 		"date":       eventDate,
 		"country":    eventCountry,
 		"copyOf":     copyOf,
+		"copymode":   copyMode,
 		"templateID": templateID,
 		"mode":       mode,
 		"laps":       laps,
